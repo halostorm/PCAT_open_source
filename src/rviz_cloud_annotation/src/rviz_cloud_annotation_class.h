@@ -86,6 +86,10 @@
 
 #define _M_PI 3.1415926
 
+#define DISTANCE_LIMMIT 20
+
+#define HEIGHT_LIMMIT 2
+
 #define _max(a, b) (((a) > (b)) ? (a) : (b))
 #define _min(a, b) (((a) > (b)) ? (b) : (a))
 
@@ -106,6 +110,9 @@ public:
 
   typedef pcl::Normal PointNormal;
   typedef pcl::PointCloud<PointNormal> PointNormalCloud;
+
+  typedef pcl::PointXYZI PointXYZI;
+  typedef pcl::PointCloud<PointXYZI> PointXYZICloud;
 
   typedef pcl::PointXYZRGB PointXYZRGB;
 
@@ -342,6 +349,8 @@ public:
                                    const bool interactive);
 
   InteractiveMarker CloudToMarker(const PointXYZRGBNormalCloud &cloud, const bool interactive);
+
+  void colorize_point_cloud(double intensity, PointXYZRGB *sample);
 
 private:
   ros::NodeHandle &m_nh;
@@ -605,6 +614,15 @@ public:
     std::stringstream stream;
     stream << int_temp;
     string_temp = stream.str();  //此处也可以用 stream>>string_temp
+  }
+  float m_sqrt(float x)
+  {
+    float half_x = 0.5 * x;
+    int i = *((int *)&x);              // 以整数方式读取X
+    i = 0x5f3759df - (i >> 1);         // 神奇的步骤
+    x = *((float *)&i);                // 再以浮点方式读取i
+    x = x * (1.5 - (half_x * x * x));  // 牛顿迭代一遍提高精度
+    return 1 / x;
   }
 };
 

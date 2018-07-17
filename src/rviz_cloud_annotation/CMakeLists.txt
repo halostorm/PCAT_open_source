@@ -108,8 +108,18 @@ target_link_libraries(rviz_cloud_annotation_plugin
 ## Install ##
 #############
 
-install(TARGETS rviz_cloud_annotation_node rviz_cloud_annotation_plugin 
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION lib)
+install(TARGETS rviz_cloud_annotation_node
+        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
+install(TARGETS  rviz_cloud_annotation_plugin 
+        ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+        LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
 
+install(DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+  FILES_MATCHING PATTERN "*.h"
+)
+
+install(DIRECTORY launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
+)

@@ -95,7 +95,7 @@ RVizCloudAnnotation::RVizCloudAnnotation(ros::NodeHandle &nh1) : m_nh(nh1)
   m_nh.param<std::string>(LOG_FILE, param_stringO, LOG_FILE_DEFAULT);  // 加载点云文件名
 
   m_log_file = param_stringO;
-  ROS_INFO("rviz_cloud_annotation: log file: %s",m_log_file.c_str());
+  // ROS_INFO("rviz_cloud_annotation: log file: %s", m_log_file.c_str());
   mkdir(param_stringA.c_str(), S_IRWXU);
   mkdir(param_stringB.c_str(), S_IRWXU);
   mkdir(param_stringC.c_str(), S_IRWXU);
@@ -368,29 +368,30 @@ void RVizCloudAnnotation::LoadCloud(const std::string &filename, const std::stri
   cloud.clear();
 
   pcl::PCLPointCloud2 cloud2;
+  PointXYZICloud cloud_in;
 
   if (pcl::io::loadPCDFile(filename, cloud2))
-    throw std::string(std::string("could not load cloud: ") + filename);
-
-  PointXYZRGBCloud xyz_rgb_cloud;
-  PointNormalCloud normal_cloud;
-
-  pcl::fromPCLPointCloud2(cloud2, xyz_rgb_cloud);
-
-  if (normal_source == PARAM_VALUE_NORMAL_SOURCE_CLOUD)
-    pcl::fromPCLPointCloud2(cloud2, normal_cloud);
-  else if (normal_source.substr(0, std::string(PARAM_VALUE_NORMAL_SOURCE_OTHER_CLOUD).size()) ==
-           PARAM_VALUE_NORMAL_SOURCE_OTHER_CLOUD)
   {
-    const std::string filename_n = normal_source.substr(std::string(PARAM_VALUE_NORMAL_SOURCE_OTHER_CLOUD).size());
-    if (pcl::io::loadPCDFile(filename_n, normal_cloud))
-      throw std::string(std::string("could not load normal source cloud: ") + filename_n);
+    throw std::string(std::string("could not load cloud: ") + filename);
   }
-  else
-    throw std::string(std::string("invalid normal source: ") + normal_source);
+  PointXYZRGBCloud xyz_rgb_cloud;
 
-  if (normal_cloud.size() != xyz_rgb_cloud.size())
-    throw std::string("cloud and normal cloud have different sizes");
+  pcl::fromPCLPointCloud2(cloud2, cloud_in);
+  ROS_INFO("rviz_cloud_annotation: cloud_in size: %ld", cloud_in.size());
+  for (int64 i = 0; i < cloud_in.size(); i++)
+  {
+    PointXYZRGB point;
+    point.x = cloud_in[i].x;
+    point.y = cloud_in[i].y;
+    point.z = cloud_in[i].z;
+    float radius = m_sqrt(point.x * point.x + point.y * point.y);
+    if (radius < DISTANCE_LIMMIT && fabs(point.z) < HEIGHT_LIMMIT)
+    {
+      colorize_point_cloud(cloud_in[i].intensity, &point);
+      xyz_rgb_cloud.push_back(point);
+    }
+  }
+  // pcl::fromPCLPointCloud2(cloud2, xyz_rgb_cloud);
 
   pcl::copyPointCloud(xyz_rgb_cloud, cloud);
 
@@ -398,6 +399,66 @@ void RVizCloudAnnotation::LoadCloud(const std::string &filename, const std::stri
   {
     ids_in_plane_flag.push_back(0);
   }
+}
+
+void RVizCloudAnnotation::colorize_point_cloud(double intensity, PointXYZRGB *sample)
+{  // This function adds RGB color to points in the point cloud based on each point's refelctivity.
+  // Blue: Low reflectivity, Yellow/Green: Medium reflectivity, Red: High reflectivity
+  // ROS_INFO("rviz_cloud_annotation: intensity %f", intensity);
+  intensity = intensity * 255 / 100;
+  int r, g, b;
+  double intensity_range = 255;  // any intensity value above this value will be red
+  double wavelength;
+  double min_wavelength =
+      470;  // used to discard overtly blue and purple points that are invisible due to the black background
+  if (intensity <= intensity_range)
+    wavelength = intensity / intensity_range * (780 - min_wavelength) + min_wavelength;
+  else
+    wavelength = 780;
+  if ((wavelength >= 380) && (wavelength < 440))
+  {
+    r = (-(wavelength - 440) / (440 - 380)) * 255;
+    g = 0;
+    b = 255;
+  }
+  else if ((wavelength >= 440) && (wavelength < 490))
+  {
+    r = 0;
+    g = ((wavelength - 440) / (490 - 440)) * 255;
+    b = 255;
+  }
+  else if ((wavelength >= 490) && (wavelength < 510))
+  {
+    r = 0;
+    g = 255;
+    b = (-(wavelength - 510) / (510 - 490)) * 255;
+  }
+  else if ((wavelength >= 510) && (wavelength < 580))
+  {
+    r = ((wavelength - 510) / (580 - 510)) * 255;
+    g = 255;
+    b = 0;
+  }
+  else if ((wavelength >= 580) && (wavelength < 645))
+  {
+    r = 255;
+    g = (-(wavelength - 645) / (645 - 580)) * 255;
+    b = 0;
+  }
+  else if ((wavelength >= 645) && (wavelength < 781))
+  {
+    r = 255;
+    g = 0;
+    b = 0;
+  }
+  else
+  {
+    r = 0;
+    g = 0;
+    b = 0;
+  }
+  uint32_t rgb = ((uint32_t)r << 16 | (uint32_t)g << 8 | (uint32_t)b);
+  sample->rgb = *reinterpret_cast<float *>(&rgb);
 }
 
 void RVizCloudAnnotation::Save(const bool is_autosave)
@@ -640,7 +701,6 @@ std::string RVizCloudAnnotation::GetClickType(const std::string &marker_name, ui
     ROS_ERROR("rviz_cloud_annotation: click: could not convert %s to number.", num_str.c_str());
     return "";
   }
-
   return result;
 }
 
@@ -668,12 +728,6 @@ RVizCloudAnnotation::uint64 RVizCloudAnnotation::GetClickedPointId(const Interac
 
       std::vector<int> idxs(1);
       std::vector<float> dsts(1);
-
-      // if (m_kdtree->nearestKSearch(click_pt, 1, idxs, dsts) <= 0)
-      // {
-      //   ROS_WARN("rviz_cloud_annotation: point was clicked, but no nearest cloud point found.");
-      //   return 0;
-      // }
 
       const uint64 idx = idxs[0];
       const float dst = std::sqrt(dsts[0]);
@@ -900,26 +954,27 @@ void RVizCloudAnnotation::LoadDataSet(std::string A, std::string B, std::string 
   while (std::getline(ifile, s))
   {
     label_files.push_back(s);
-    ROS_INFO("rviz_cloud_annotation: label_files: %s", s.c_str());
+    // ROS_INFO("rviz_cloud_annotation: label_files: %s", s.c_str());
   }
-  //ROS_INFO("rviz_cloud_annotation: OK1");
+  // ROS_INFO("rviz_cloud_annotation: OK1");
   p = readdir(dir);
-  //ROS_INFO("rviz_cloud_annotation: OK2");
+  // ROS_INFO("rviz_cloud_annotation: OK2");
   while ((p = readdir(dir)) != NULL)  //开始逐个遍历
   {
-    if (p->d_name[0] != '.' && p->d_name[0] != '_'&& p->d_name[0] != 'a')  // d_name是一个char数组，存放当前遍历到的文件名
+    if (p->d_name[0] != '.' && p->d_name[0] != '_' &&
+        p->d_name[0] != 'a')  // d_name是一个char数组，存放当前遍历到的文件名
     {  //这里需要注意，linux平台下一个目录中有"."和".."隐藏文件，需要过滤掉
       bool ifNew = true;
       std::string FILE_NAME = std::string(p->d_name);
 
       std::string name = A + std::string(p->d_name);
 
-      ROS_INFO("rviz_cloud_annotation: Dataset: %s", name.c_str());
+      // ROS_INFO("rviz_cloud_annotation: Dataset: %s", name.c_str());
       for (int i = 0; i < label_files.size(); i++)
       {
         if (name.compare(label_files[i]) == 0)
         {
-          ROS_INFO("rviz_cloud_annotation: find labeled files: %s", name.c_str());
+          // ROS_INFO("rviz_cloud_annotation: find labeled files: %s", name.c_str());
           ifNew = false;
           break;
         }
@@ -969,9 +1024,10 @@ void RVizCloudAnnotation::onNew(const std_msgs::UInt32 &label_msg)
   EmptyLaneToMarker(LANE_ID);
   EmptyPlaneToMarker(PLANE_ID);
 
-  if (FILE_ID < m_dataset_files.size())
+  if (FILE_ID < m_dataset_files.size() - 1)
   {
     FILE_ID++;
+    m_dataset_files.erase(m_dataset_files.begin() + FILE_ID);
     InitNewCloud(*nh);
   }
 }
@@ -1577,7 +1633,7 @@ void RVizCloudAnnotation::VectorSelection(const Uint64Vector &ids)  //对选择�
         {
           if (ids_in_plane[k] == ids[m])
           {
-            ids_in_plane[k] = -1;
+            ids_in_plane[k] = 0;
             break;
           }
         }
@@ -1619,7 +1675,7 @@ void RVizCloudAnnotation::generatePlane(const PointXYZRGBNormalCloud &cloud)
 
   marker.id = PLANE_ID;
 
-  marker.action = visualization_msgs::Marker::ADD;
+  marker.action = visualization_msgs::Marker::MODIFY;
 
   marker.type = visualization_msgs::Marker::POINTS;
 
@@ -1638,21 +1694,22 @@ void RVizCloudAnnotation::generatePlane(const PointXYZRGBNormalCloud &cloud)
 
   for (uint64 i = 0; i < ids_in_plane.size(); i++)
   {
-    if (ids_in_plane[i] < 0)
+    if (ids_in_plane[i] != 0)
     {
-      continue;
+      ROS_INFO("rviz_cloud_annotation: ids_in_plane[i]: %ld", ids_in_plane[i]);
+      const PointXYZRGBNormal &ppt = cloud[ids_in_plane[i]];
+
+      const Eigen::Vector3f ept(ppt.x, ppt.y, ppt.z);
+      geometry_msgs::Point P;
+      P.x = ept.x();
+      P.y = ept.y();
+      P.z = ept.z();
+      marker.points.push_back(P);
     }
-    const PointXYZRGBNormal &ppt = cloud[ids_in_plane[i]];
-
-    const Eigen::Vector3f ept(ppt.x, ppt.y, ppt.z);
-    geometry_msgs::Point P;
-    P.x = ept.x();
-    P.y = ept.y();
-    P.z = ept.z();
-
-    marker.points.push_back(P);
   }
+  //ROS_INFO("rviz_cloud_annotation: True 1");
   plane_marker_pub.publish(marker);
+  ROS_INFO("rviz_cloud_annotation: publish plane");
 }
 
 void RVizCloudAnnotation::generateKerb(const PointXYZRGBNormalCloud &cloud)

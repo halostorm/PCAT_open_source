@@ -1,7 +1,3 @@
-cd devel/
+cd tools/
 
-source setup.bash
-
-cd $pwd ..
-
-roslaunch src/rviz_cloud_annotation/launch/annotation.launch
+bash launch_annotation.sh

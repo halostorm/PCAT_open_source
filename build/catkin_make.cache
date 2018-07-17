@@ -1,0 +1,2 @@
+rviz_cloud_annotation
+-DCATKIN_DEVEL_PREFIX=/home/halo/nullmax_tool/devel -DCMAKE_INSTALL_PREFIX=/home/halo/nullmax_tool/install -G Unix Makefiles
