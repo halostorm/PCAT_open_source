@@ -1,0 +1,16 @@
+<library path="lib/librviz_cloud_annotation_plugin">
+  <class name="rviz_cloud_annotation/Annotation"
+         type="rviz_cloud_annotation::QRVizCloudAnnotation"
+         base_class_type="rviz::Panel">
+    <description>
+      Panel to control the rviz_cloud_annotation node from the RViz interface.
+    </description>
+  </class>
+  <class name="rviz_cloud_annotation/Annotation Tool"
+         type="rviz_cloud_annotation::AnnotationSelectionTool"
+         base_class_type="rviz::Tool">
+    <description>
+      Annotation tool for rviz_cloud_annotation
+    </description>
+  </class>
+</library>
