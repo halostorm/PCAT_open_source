@@ -131,12 +131,12 @@ point_neighborhood.h
 /home/halo/nullmax_tool/src/rviz_cloud_annotation/src/point_neighborhood.h
 rviz_cloud_annotation.h
 /home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation.h
+rviz_cloud_annotation_params.h
+/home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation_params.h
 rviz_cloud_annotation_points.h
 /home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation_points.h
 rviz_cloud_annotation_undo.h
 /home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation_undo.h
-rviz_cloud_annotation_params.h
-/home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation_params.h
 sys/stat.h
 -
 sys/types.h

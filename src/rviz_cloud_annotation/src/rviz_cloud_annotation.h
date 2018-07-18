@@ -199,6 +199,9 @@
 #define PARAM_NAME_ANNOTATION_TYPE_TOPIC "rviz_cloud_annotation/annotation_type_topic"
 #define PARAM_DEFAULT_ANNOTATION_TYPE_TOPIC "/rviz_cloud_annotation/annotation_type"
 
+#define PARAM_NAME_OBJECT_ID_TOPIC "rviz_cloud_annotation/object_id_topic"
+#define PARAM_DEFAULT_OBJECT_ID_TOPIC "/rviz_cloud_annotation/object_id"
+
 #define PARAM_NAME_TOGGLE_NONE_TOPIC "rviz_cloud_annotation/toggle_none_topic"
 #define PARAM_DEFAULT_TOGGLE_NONE_TOPIC "/rviz_cloud_annotation/toggle_none"
 

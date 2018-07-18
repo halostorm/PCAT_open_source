@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_rviz_cloud_annotation__QRVizCloudAnnotation_t {
-    QByteArrayData data[64];
-    char stringdata0[909];
+    QByteArrayData data[66];
+    char stringdata0[940];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -86,13 +86,15 @@ QT_MOC_LITERAL(53, 676, 8), // "onBiasZ3"
 QT_MOC_LITERAL(54, 685, 8), // "onBiasZ4"
 QT_MOC_LITERAL(55, 694, 13), // "onSetBiasZero"
 QT_MOC_LITERAL(56, 708, 15), // "std_msgs::Empty"
-QT_MOC_LITERAL(57, 724, 31), // "onControlPointWeightSliderMoved"
-QT_MOC_LITERAL(58, 756, 29), // "onControlPointWeightSliderSet"
-QT_MOC_LITERAL(59, 786, 23), // "onControlPointWeightInc"
-QT_MOC_LITERAL(60, 810, 23), // "onControlPointWeightDec"
-QT_MOC_LITERAL(61, 834, 23), // "onControlPointWeightMax"
-QT_MOC_LITERAL(62, 858, 23), // "onControlPointWeightMin"
-QT_MOC_LITERAL(63, 882, 26) // "onSetControlPointMaxWeight"
+QT_MOC_LITERAL(57, 724, 13), // "onSetObjectId"
+QT_MOC_LITERAL(58, 738, 16), // "onChangeObjectId"
+QT_MOC_LITERAL(59, 755, 31), // "onControlPointWeightSliderMoved"
+QT_MOC_LITERAL(60, 787, 29), // "onControlPointWeightSliderSet"
+QT_MOC_LITERAL(61, 817, 23), // "onControlPointWeightInc"
+QT_MOC_LITERAL(62, 841, 23), // "onControlPointWeightDec"
+QT_MOC_LITERAL(63, 865, 23), // "onControlPointWeightMax"
+QT_MOC_LITERAL(64, 889, 23), // "onControlPointWeightMin"
+QT_MOC_LITERAL(65, 913, 26) // "onSetControlPointMaxWeight"
 
     },
     "rviz_cloud_annotation::QRVizCloudAnnotation\0"
@@ -115,7 +117,8 @@ QT_MOC_LITERAL(63, 882, 26) // "onSetControlPointMaxWeight"
     "onBiasX3\0onBiasX4\0onBiasY1\0onBiasY2\0"
     "onBiasY3\0onBiasY4\0onBiasZ1\0onBiasZ2\0"
     "onBiasZ3\0onBiasZ4\0onSetBiasZero\0"
-    "std_msgs::Empty\0onControlPointWeightSliderMoved\0"
+    "std_msgs::Empty\0onSetObjectId\0"
+    "onChangeObjectId\0onControlPointWeightSliderMoved\0"
     "onControlPointWeightSliderSet\0"
     "onControlPointWeightInc\0onControlPointWeightDec\0"
     "onControlPointWeightMax\0onControlPointWeightMin\0"
@@ -129,7 +132,7 @@ static const uint qt_meta_data_rviz_cloud_annotation__QRVizCloudAnnotation[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      52,   14, // methods
+      54,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -137,58 +140,60 @@ static const uint qt_meta_data_rviz_cloud_annotation__QRVizCloudAnnotation[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,  274,    2, 0x08 /* Private */,
-       4,    1,  277,    2, 0x08 /* Private */,
-       6,    1,  280,    2, 0x08 /* Private */,
-       9,    1,  283,    2, 0x08 /* Private */,
-      11,    0,  286,    2, 0x08 /* Private */,
-      12,    0,  287,    2, 0x08 /* Private */,
-      13,    0,  288,    2, 0x08 /* Private */,
-      14,    0,  289,    2, 0x08 /* Private */,
-      15,    0,  290,    2, 0x08 /* Private */,
-      16,    0,  291,    2, 0x08 /* Private */,
-      17,    0,  292,    2, 0x08 /* Private */,
-      18,    0,  293,    2, 0x08 /* Private */,
-      19,    0,  294,    2, 0x08 /* Private */,
-      20,    0,  295,    2, 0x08 /* Private */,
-      21,    0,  296,    2, 0x08 /* Private */,
-      22,    0,  297,    2, 0x08 /* Private */,
-      23,    1,  298,    2, 0x08 /* Private */,
-      25,    1,  301,    2, 0x08 /* Private */,
-      26,    1,  304,    2, 0x08 /* Private */,
-      27,    0,  307,    2, 0x08 /* Private */,
-      28,    0,  308,    2, 0x08 /* Private */,
-      29,    0,  309,    2, 0x08 /* Private */,
-      30,    0,  310,    2, 0x08 /* Private */,
-      31,    0,  311,    2, 0x08 /* Private */,
-      32,    0,  312,    2, 0x08 /* Private */,
-      33,    0,  313,    2, 0x08 /* Private */,
-      34,    1,  314,    2, 0x08 /* Private */,
-      36,    1,  317,    2, 0x08 /* Private */,
-      37,    1,  320,    2, 0x08 /* Private */,
-      40,    1,  323,    2, 0x08 /* Private */,
-      41,    0,  326,    2, 0x08 /* Private */,
-      42,    0,  327,    2, 0x08 /* Private */,
-      43,    0,  328,    2, 0x08 /* Private */,
-      44,    0,  329,    2, 0x08 /* Private */,
-      45,    0,  330,    2, 0x08 /* Private */,
-      46,    0,  331,    2, 0x08 /* Private */,
-      47,    0,  332,    2, 0x08 /* Private */,
-      48,    0,  333,    2, 0x08 /* Private */,
-      49,    0,  334,    2, 0x08 /* Private */,
-      50,    0,  335,    2, 0x08 /* Private */,
-      51,    0,  336,    2, 0x08 /* Private */,
-      52,    0,  337,    2, 0x08 /* Private */,
-      53,    0,  338,    2, 0x08 /* Private */,
-      54,    0,  339,    2, 0x08 /* Private */,
-      55,    1,  340,    2, 0x08 /* Private */,
-      57,    1,  343,    2, 0x08 /* Private */,
-      58,    1,  346,    2, 0x08 /* Private */,
-      59,    0,  349,    2, 0x08 /* Private */,
-      60,    0,  350,    2, 0x08 /* Private */,
-      61,    0,  351,    2, 0x08 /* Private */,
-      62,    0,  352,    2, 0x08 /* Private */,
-      63,    1,  353,    2, 0x08 /* Private */,
+       1,    1,  284,    2, 0x08 /* Private */,
+       4,    1,  287,    2, 0x08 /* Private */,
+       6,    1,  290,    2, 0x08 /* Private */,
+       9,    1,  293,    2, 0x08 /* Private */,
+      11,    0,  296,    2, 0x08 /* Private */,
+      12,    0,  297,    2, 0x08 /* Private */,
+      13,    0,  298,    2, 0x08 /* Private */,
+      14,    0,  299,    2, 0x08 /* Private */,
+      15,    0,  300,    2, 0x08 /* Private */,
+      16,    0,  301,    2, 0x08 /* Private */,
+      17,    0,  302,    2, 0x08 /* Private */,
+      18,    0,  303,    2, 0x08 /* Private */,
+      19,    0,  304,    2, 0x08 /* Private */,
+      20,    0,  305,    2, 0x08 /* Private */,
+      21,    0,  306,    2, 0x08 /* Private */,
+      22,    0,  307,    2, 0x08 /* Private */,
+      23,    1,  308,    2, 0x08 /* Private */,
+      25,    1,  311,    2, 0x08 /* Private */,
+      26,    1,  314,    2, 0x08 /* Private */,
+      27,    0,  317,    2, 0x08 /* Private */,
+      28,    0,  318,    2, 0x08 /* Private */,
+      29,    0,  319,    2, 0x08 /* Private */,
+      30,    0,  320,    2, 0x08 /* Private */,
+      31,    0,  321,    2, 0x08 /* Private */,
+      32,    0,  322,    2, 0x08 /* Private */,
+      33,    0,  323,    2, 0x08 /* Private */,
+      34,    1,  324,    2, 0x08 /* Private */,
+      36,    1,  327,    2, 0x08 /* Private */,
+      37,    1,  330,    2, 0x08 /* Private */,
+      40,    1,  333,    2, 0x08 /* Private */,
+      41,    0,  336,    2, 0x08 /* Private */,
+      42,    0,  337,    2, 0x08 /* Private */,
+      43,    0,  338,    2, 0x08 /* Private */,
+      44,    0,  339,    2, 0x08 /* Private */,
+      45,    0,  340,    2, 0x08 /* Private */,
+      46,    0,  341,    2, 0x08 /* Private */,
+      47,    0,  342,    2, 0x08 /* Private */,
+      48,    0,  343,    2, 0x08 /* Private */,
+      49,    0,  344,    2, 0x08 /* Private */,
+      50,    0,  345,    2, 0x08 /* Private */,
+      51,    0,  346,    2, 0x08 /* Private */,
+      52,    0,  347,    2, 0x08 /* Private */,
+      53,    0,  348,    2, 0x08 /* Private */,
+      54,    0,  349,    2, 0x08 /* Private */,
+      55,    1,  350,    2, 0x08 /* Private */,
+      57,    1,  353,    2, 0x08 /* Private */,
+      58,    0,  356,    2, 0x08 /* Private */,
+      59,    1,  357,    2, 0x08 /* Private */,
+      60,    1,  360,    2, 0x08 /* Private */,
+      61,    0,  363,    2, 0x08 /* Private */,
+      62,    0,  364,    2, 0x08 /* Private */,
+      63,    0,  365,    2, 0x08 /* Private */,
+      64,    0,  366,    2, 0x08 /* Private */,
+      65,    1,  367,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void, QMetaType::Int,    3,
@@ -236,6 +241,8 @@ static const uint qt_meta_data_rviz_cloud_annotation__QRVizCloudAnnotation[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 56,   39,
+    QMetaType::Void, 0x80000000 | 38,   39,
+    QMetaType::Void,
     QMetaType::Void, QMetaType::Int,   35,
     QMetaType::Void, QMetaType::Int,   35,
     QMetaType::Void,
@@ -298,13 +305,15 @@ void rviz_cloud_annotation::QRVizCloudAnnotation::qt_static_metacall(QObject *_o
         case 42: _t->onBiasZ3(); break;
         case 43: _t->onBiasZ4(); break;
         case 44: _t->onSetBiasZero((*reinterpret_cast< const std_msgs::Empty(*)>(_a[1]))); break;
-        case 45: _t->onControlPointWeightSliderMoved((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 46: _t->onControlPointWeightSliderSet((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 47: _t->onControlPointWeightInc(); break;
-        case 48: _t->onControlPointWeightDec(); break;
-        case 49: _t->onControlPointWeightMax(); break;
-        case 50: _t->onControlPointWeightMin(); break;
-        case 51: _t->onSetControlPointMaxWeight((*reinterpret_cast< const std_msgs::Int32(*)>(_a[1]))); break;
+        case 45: _t->onSetObjectId((*reinterpret_cast< const std_msgs::Int32(*)>(_a[1]))); break;
+        case 46: _t->onChangeObjectId(); break;
+        case 47: _t->onControlPointWeightSliderMoved((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 48: _t->onControlPointWeightSliderSet((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 49: _t->onControlPointWeightInc(); break;
+        case 50: _t->onControlPointWeightDec(); break;
+        case 51: _t->onControlPointWeightMax(); break;
+        case 52: _t->onControlPointWeightMin(); break;
+        case 53: _t->onSetControlPointMaxWeight((*reinterpret_cast< const std_msgs::Int32(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -335,13 +344,13 @@ int rviz_cloud_annotation::QRVizCloudAnnotation::qt_metacall(QMetaObject::Call _
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 52)
+        if (_id < 54)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 52;
+        _id -= 54;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 52)
+        if (_id < 54)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 52;
+        _id -= 54;
     }
     return _id;
 }

@@ -54,8 +54,6 @@
 
 RVizCloudAnnotation::RVizCloudAnnotation(ros::NodeHandle &nh1) : m_nh(nh1)
 {
-  std::string param_string;
-
   nh = &nh1;
 
   std::string param_stringA;
@@ -872,28 +870,28 @@ void RVizCloudAnnotation::onClear(const std_msgs::UInt32 &label_msg)
     }
     else if (ANNOTATION_TYPE == KERB)
     {
-      for (int i = 0; i < KERB_SIZE; i++)
+      for (int i = 0; i < KERB_SIZE[KERB_ID]; i++)
       {
-        KERB_SET[i][0] = 0;
-        KERB_SET[i][1] = 0;
-        KERB_SET[i][2] = 0;
-        KERB_SET[i][3] = 0;
+        KERB_SET[KERB_ID][i][0] = 0;
+        KERB_SET[KERB_ID][i][1] = 0;
+        KERB_SET[KERB_ID][i][2] = 0;
+        KERB_SET[KERB_ID][i][3] = 0;
       }
-      ids_in_kerb.clear();
-      KERB_SIZE = 0;
+      ids_in_kerb[KERB_ID].clear();
+      KERB_SIZE[KERB_ID] = 0;
       EmptyKerbToMarker(KERB_ID);
     }
     else if (ANNOTATION_TYPE == LANE)
     {
-      for (int i = 0; i < LANE_SIZE; i++)
+      for (int i = 0; i < LANE_SIZE[LANE_ID]; i++)
       {
-        LANE_SET[i][0] = 0;
-        LANE_SET[i][1] = 0;
-        LANE_SET[i][2] = 0;
-        LANE_SET[i][3] = 0;
+        LANE_SET[LANE_ID][i][0] = 0;
+        LANE_SET[LANE_ID][i][1] = 0;
+        LANE_SET[LANE_ID][i][2] = 0;
+        LANE_SET[LANE_ID][i][3] = 0;
       }
-      ids_in_lane.clear();
-      LANE_SIZE = 0;
+      ids_in_lane[LANE_ID].clear();
+      LANE_SIZE[LANE_ID] = 0;
       EmptyLaneToMarker(LANE_ID);
     }
     else if (ANNOTATION_TYPE == PLANE)
@@ -920,27 +918,32 @@ void RVizCloudAnnotation::onClear(const std_msgs::UInt32 &label_msg)
     }
     ids_in_bbox[i].clear();
   }
-  for (int i = 0; i < KERB_SIZE; i++)
+  for (int k = 0; k <= KERB_ID; k++)
   {
-    KERB_SET[i][0] = 0;
-    KERB_SET[i][1] = 0;
-    KERB_SET[i][2] = 0;
-    KERB_SET[i][3] = 0;
+    for (int i = 0; i < KERB_SIZE[k]; i++)
+    {
+      KERB_SET[k][i][0] = 0;
+      KERB_SET[k][i][1] = 0;
+      KERB_SET[k][i][2] = 0;
+      KERB_SET[k][i][3] = 0;
+    }
+    ids_in_kerb[k].clear();
+    KERB_SIZE[k] = 0;
+    EmptyKerbToMarker(k);
   }
-  ids_in_kerb.clear();
-  KERB_SIZE = 0;
-  EmptyKerbToMarker(KERB_ID);
-
-  for (int i = 0; i < LANE_SIZE; i++)
+  for (int k = 0; k <= LANE_ID; k++)
   {
-    LANE_SET[i][0] = 0;
-    LANE_SET[i][1] = 0;
-    LANE_SET[i][2] = 0;
-    LANE_SET[i][3] = 0;
+    for (int i = 0; i < LANE_SIZE[k]; i++)
+    {
+      LANE_SET[k][i][0] = 0;
+      LANE_SET[k][i][1] = 0;
+      LANE_SET[k][i][2] = 0;
+      LANE_SET[k][i][3] = 0;
+    }
+    ids_in_lane[k].clear();
+    LANE_SIZE[k] = 0;
+    EmptyLaneToMarker(k);
   }
-  ids_in_lane.clear();
-  LANE_SIZE = 0;
-  EmptyLaneToMarker(LANE_ID);
 
   ids_in_plane.clear();
   ids_in_plane_flag.clear();
@@ -1026,14 +1029,20 @@ void RVizCloudAnnotation::onNew(const std_msgs::UInt32 &label_msg)
       ROS_INFO("rviz_cloud_annotation: Delete BBOX ID: %i", i);
     }
   }
-  EmptyKerbToMarker(KERB_ID);
-  EmptyLaneToMarker(LANE_ID);
+  for (int i = 0; i <= KERB_ID; i++)
+  {
+    EmptyKerbToMarker(i);
+  }
+  for (int i = 0; i <= LANE_ID; i++)
+  {
+    EmptyLaneToMarker(i);
+  }
   EmptyPlaneToMarker(PLANE_ID);
 
   if (FILE_ID < m_dataset_files.size() - 1)
   {
     FILE_ID++;
-    m_dataset_files.erase(m_dataset_files.begin() + FILE_ID);
+    //m_dataset_files.erase(m_dataset_files.begin() + FILE_ID);
     InitNewCloud(*nh);
   }
 }
@@ -1288,12 +1297,12 @@ void RVizCloudAnnotation::onClickOnCloud(const InteractiveMarkerFeedbackConstPtr
     }
     else if (ANNOTATION_TYPE == KERB)
     {
-      ids_in_kerb.push_back(idx);
+      ids_in_kerb[KERB_ID].push_back(idx);
       generateKerb(*m_cloud);
     }
     else if (ANNOTATION_TYPE == LANE)
     {
-      ids_in_lane.push_back(idx);
+      ids_in_lane[LANE_ID].push_back(idx);
       generateLane(*m_cloud);
     }
     else if (ANNOTATION_TYPE == PLANE)
@@ -1320,17 +1329,17 @@ void RVizCloudAnnotation::onClickOnCloud(const InteractiveMarkerFeedbackConstPtr
     }
     else if (ANNOTATION_TYPE == KERB)
     {
-      if (ids_in_kerb.size() > 0)
+      if (ids_in_kerb[KERB_ID].size() > 0)
       {
-        ids_in_kerb.pop_back();
+        ids_in_kerb[KERB_ID].pop_back();
         generateKerb(*m_cloud);
       }
     }
     else if (ANNOTATION_TYPE == LANE)
     {
-      if (ids_in_lane.size() > 0)
+      if (ids_in_lane[LANE_ID].size() > 0)
       {
-        ids_in_lane.pop_back();
+        ids_in_lane[LANE_ID].pop_back();
         generateLane(*m_cloud);
       }
     }
@@ -1692,7 +1701,7 @@ void RVizCloudAnnotation::generatePlane(const PointXYZRGBNormalCloud &cloud)
   marker.color.b = 0.8;
   marker.color.a = 0.8;
 
-  ROS_INFO("rviz_cloud_annotation: plane_size: %ld", (ids_in_plane.size() - 1));
+  ROS_INFO("rviz_cloud_annotation: pLANE_SIZE[LANE_ID]: %ld", (ids_in_plane.size() - 1));
   if (ids_in_plane.size() < 3)
   {
     return;
@@ -1740,15 +1749,15 @@ void RVizCloudAnnotation::generateKerb(const PointXYZRGBNormalCloud &cloud)
   marker.color.b = 0;
   marker.color.a = 0.5;
 
-  ROS_INFO("rviz_cloud_annotation: Kerb_Edge: %ld", (ids_in_kerb.size() - 1));
-  if (ids_in_kerb.size() < 2)
+  ROS_INFO("rviz_cloud_annotation: Kerb_Edge: %ld", (ids_in_kerb[KERB_ID].size() - 1));
+  if (ids_in_kerb[KERB_ID].size() < 2)
   {
     return;
   }
 
-  for (uint64 i = 0; i < ids_in_kerb.size(); i++)
+  for (uint64 i = 0; i < ids_in_kerb[KERB_ID].size(); i++)
   {
-    const PointXYZRGBNormal &ppt = cloud[ids_in_kerb[i]];
+    const PointXYZRGBNormal &ppt = cloud[ids_in_kerb[KERB_ID][i]];
     const Eigen::Vector3f ept(ppt.x, ppt.y, ppt.z);
 
     geometry_msgs::Point P;
@@ -1756,14 +1765,14 @@ void RVizCloudAnnotation::generateKerb(const PointXYZRGBNormalCloud &cloud)
     P.y = ept.y();
     P.z = ept.z() - 0.01;
 
-    KERB_SET[i][0] = ept.x();
-    KERB_SET[i][1] = ept.y();
-    KERB_SET[i][2] = ept.z();
-    KERB_SET[i][3] = ids_in_kerb[i];  // point id
+    KERB_SET[KERB_ID][i][0] = ept.x();
+    KERB_SET[KERB_ID][i][1] = ept.y();
+    KERB_SET[KERB_ID][i][2] = ept.z();
+    KERB_SET[KERB_ID][i][3] = ids_in_kerb[KERB_ID][i];  // point id
 
     marker.points.push_back(P);
   }
-  KERB_SIZE = ids_in_kerb.size();
+  KERB_SIZE[KERB_ID] = ids_in_kerb[KERB_ID].size();
 
   kerb_marker_pub.publish(marker);
 }
@@ -1790,15 +1799,15 @@ void RVizCloudAnnotation::generateLane(const PointXYZRGBNormalCloud &cloud)
   marker.color.b = 0;
   marker.color.a = 0.5;
 
-  ROS_INFO("rviz_cloud_annotation: Lane_Edge: %ld", (ids_in_lane.size() - 1));
-  if (ids_in_lane.size() < 2)
+  ROS_INFO("rviz_cloud_annotation: Lane_Edge: %ld", (ids_in_lane[LANE_ID].size() - 1));
+  if (ids_in_lane[LANE_ID].size() < 2)
   {
     return;
   }
 
-  for (uint64 i = 0; i < ids_in_lane.size(); i++)
+  for (uint64 i = 0; i < ids_in_lane[LANE_ID].size(); i++)
   {
-    const PointXYZRGBNormal &ppt = cloud[ids_in_lane[i]];
+    const PointXYZRGBNormal &ppt = cloud[ids_in_lane[LANE_ID][i]];
     const Eigen::Vector3f ept(ppt.x, ppt.y, ppt.z);
 
     geometry_msgs::Point P;
@@ -1806,14 +1815,14 @@ void RVizCloudAnnotation::generateLane(const PointXYZRGBNormalCloud &cloud)
     P.y = ept.y();
     P.z = ept.z() - 0.01;
 
-    LANE_SET[i][0] = ept.x();
-    LANE_SET[i][1] = ept.y();
-    LANE_SET[i][2] = ept.z();
-    LANE_SET[i][3] = ids_in_lane[i];  // point id
+    LANE_SET[LANE_ID][i][0] = ept.x();
+    LANE_SET[LANE_ID][i][1] = ept.y();
+    LANE_SET[LANE_ID][i][2] = ept.z();
+    LANE_SET[LANE_ID][i][3] = ids_in_lane[LANE_ID][i];  // point id
 
     marker.points.push_back(P);
   }
-  LANE_SIZE = ids_in_lane.size();
+  LANE_SIZE[LANE_ID] = ids_in_lane[LANE_ID].size();
 
   lane_marker_pub.publish(marker);
 }
@@ -2211,16 +2220,21 @@ void RVizCloudAnnotation::FinalLabel(PointXYZRGBNormalCloud &cloud)
     }
 
     // if in line
-    if (InKerb(cloud[i].x, cloud[i].y, cloud[i].z, i) == true)
+    for (int k = 0; k <= KERB_ID; k++)
     {
-      label = -1;
-      kerb_ids.push_back(i);
+      if (InKerb(cloud[i].x, cloud[i].y, cloud[i].z, i, k) == true)
+      {
+        label = -1;
+        kerb_ids.push_back(i);
+      }
     }
-
-    if (InLane(cloud[i].x, cloud[i].y, cloud[i].z, i) == true)
+    for (int k = 0; k <= LANE_ID; k++)
     {
-      label = -2;
-      lane_ids.push_back(i);
+      if (InLane(cloud[i].x, cloud[i].y, cloud[i].z, i, k) == true)
+      {
+        label = -2;
+        lane_ids.push_back(i);
+      }
     }
 
     // if in Bbox
@@ -2286,24 +2300,24 @@ bool RVizCloudAnnotation::InBbox(float x, float y, float z, int i)
   }
 }
 
-bool RVizCloudAnnotation::InKerb(float x, float y, float z, uint64 id)
+bool RVizCloudAnnotation::InKerb(float x, float y, float z, uint64 id, int kerb_id)
 {
-  for (int i = 0; i < KERB_SIZE; i++)
+  for (int i = 0; i < KERB_SIZE[kerb_id]; i++)
   {
-    if (ids_in_kerb[i] == id)
+    if (ids_in_kerb[kerb_id][i] == id)
     {
       return true;
     }
   }
 
-  for (int i = 0; i < KERB_SIZE - 1; i++)
+  for (int i = 0; i < KERB_SIZE[kerb_id] - 1; i++)
   {
-    float x2 = KERB_SET[i + 1][0];
-    float x1 = KERB_SET[i][0];
-    float y2 = KERB_SET[i + 1][1];
-    float y1 = KERB_SET[i][1];
-    float z2 = KERB_SET[i + 1][2];
-    float z1 = KERB_SET[i][2];
+    float x2 = KERB_SET[kerb_id][i + 1][0];
+    float x1 = KERB_SET[kerb_id][i][0];
+    float y2 = KERB_SET[kerb_id][i + 1][1];
+    float y1 = KERB_SET[kerb_id][i][1];
+    float z2 = KERB_SET[kerb_id][i + 1][2];
+    float z1 = KERB_SET[kerb_id][i][2];
 
     float a1 = x1 - x;
     float a2 = y1 - y;
@@ -2330,24 +2344,24 @@ bool RVizCloudAnnotation::InKerb(float x, float y, float z, uint64 id)
   return false;
 }
 
-bool RVizCloudAnnotation::InLane(float x, float y, float z, uint64 id)
+bool RVizCloudAnnotation::InLane(float x, float y, float z, uint64 id, int lane_id)
 {
-  for (int i = 0; i < LANE_SIZE; i++)
+  for (int i = 0; i < LANE_SIZE[lane_id]; i++)
   {
-    if (ids_in_lane[i] == id)
+    if (ids_in_lane[lane_id][i] == id)
     {
       return true;
     }
   }
 
-  for (int i = 0; i < LANE_SIZE - 1; i++)
+  for (int i = 0; i < LANE_SIZE[lane_id] - 1; i++)
   {
-    float x2 = LANE_SET[i + 1][0];
-    float x1 = LANE_SET[i][0];
-    float y2 = LANE_SET[i + 1][1];
-    float y1 = LANE_SET[i][1];
-    float z2 = LANE_SET[i + 1][2];
-    float z1 = LANE_SET[i][2];
+    float x2 = LANE_SET[lane_id][i + 1][0];
+    float x1 = LANE_SET[lane_id][i][0];
+    float y2 = LANE_SET[lane_id][i + 1][1];
+    float y1 = LANE_SET[lane_id][i][1];
+    float z2 = LANE_SET[lane_id][i + 1][2];
+    float z1 = LANE_SET[lane_id][i][2];
 
     float a1 = x1 - x;
     float a2 = y1 - y;
@@ -2382,16 +2396,13 @@ void RVizCloudAnnotation::InitNewCloud(ros::NodeHandle &nh)
   LANE_ID = 0;
   PLANE_ID = 0;
 
-  KERB_SIZE = 0;
-  LANE_SIZE = 0;
-
   BBOX_YAW = 0;
 
   if_tilt = false;
 
   m_label.clear();
 
-  for (int i = 0; i < 100; i++)
+  for (int i = 0; i < BBOXNUMBER_LINEPOINTNUMBER; i++)
   {
     ids_in_bbox[i].clear();
     m_bbox_occluded[i] = 0;
@@ -2409,25 +2420,31 @@ void RVizCloudAnnotation::InitNewCloud(ros::NodeHandle &nh)
     }
   }
   //初始化Kerb
-  for (int i = 0; i < KERB_SIZE; i++)
+  for (int k = 0; k < LINENUMBER; k++)
   {
-    KERB_SET[i][0] = 0;
-    KERB_SET[i][1] = 0;
-    KERB_SET[i][2] = 0;
-    KERB_SET[i][3] = 0;
+    for (int i = 0; i < KERB_SIZE[k]; i++)
+    {
+      KERB_SET[k][i][0] = 0;
+      KERB_SET[k][i][1] = 0;
+      KERB_SET[k][i][2] = 0;
+      KERB_SET[k][i][3] = 0;
+    }
+    ids_in_kerb[k].clear();
+    KERB_SIZE[k] = 0;
   }
-  ids_in_kerb.clear();
-  KERB_SIZE = 0;
   //初始化Lane
-  for (int i = 0; i < LANE_SIZE; i++)
+  for (int k = 0; k < LINENUMBER; k++)
   {
-    LANE_SET[i][0] = 0;
-    LANE_SET[i][1] = 0;
-    LANE_SET[i][2] = 0;
-    LANE_SET[i][3] = 0;
+    for (int i = 0; i < LANE_SIZE[k]; i++)
+    {
+      LANE_SET[k][i][0] = 0;
+      LANE_SET[k][i][1] = 0;
+      LANE_SET[k][i][2] = 0;
+      LANE_SET[k][i][3] = 0;
+    }
+    ids_in_lane[k].clear();
+    LANE_SIZE[k] = 0;
   }
-  ids_in_lane.clear();
-  LANE_SIZE = 0;
   //初始化Plane
   ids_in_plane.clear();
   ids_in_plane_flag.clear();
@@ -2446,9 +2463,9 @@ void RVizCloudAnnotation::InitNewCloud(ros::NodeHandle &nh)
     ROS_INFO("rviz_cloud_annotation: files exist:");
     try
     {
-      param_string = m_dataset_files[FILE_ID];
-      ROS_INFO("rviz_cloud_annotation: file_now: %s", param_string.c_str());
-      LoadCloud(param_string, param_string2, *m_cloud);  //加载点云
+      std::string file = m_dataset_files[FILE_ID];
+      ROS_INFO("rviz_cloud_annotation: file_now: %s", file.c_str());
+      LoadCloud(file, param_string2, *m_cloud);  //加载点云
     }
     catch (const std::string &msg)
     {
@@ -2676,6 +2693,9 @@ void RVizCloudAnnotation::InitNewCloud(ros::NodeHandle &nh)
 
   m_nh.param<std::string>(PARAM_NAME_ANNOTATION_TYPE_TOPIC, param_string, PARAM_DEFAULT_ANNOTATION_TYPE_TOPIC);
   m_on_set_annotation_type_sub = m_nh.subscribe(param_string, 1, &RVizCloudAnnotation::onSetAnnotationType, this);
+
+  m_nh.param<std::string>(PARAM_NAME_OBJECT_ID_TOPIC, param_string, PARAM_DEFAULT_OBJECT_ID_TOPIC);
+  m_object_id_pub = nh.advertise<std_msgs::Int32>(param_string, 1, true);
 
   m_nh.param<double>(PARAM_NAME_AUTOSAVE_TIME, param_double, PARAM_DEFAULT_AUTOSAVE_TIME);
   if (param_double >= 1.0)

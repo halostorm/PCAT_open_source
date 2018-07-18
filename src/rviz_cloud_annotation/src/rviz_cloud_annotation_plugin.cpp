@@ -204,6 +204,9 @@ QRVizCloudAnnotation::QRVizCloudAnnotation(QWidget *parent) : rviz::Panel(parent
 
     m_nh.param<std::string>(PARAM_NAME_ANNOTATION_TYPE_TOPIC, param_string, PARAM_DEFAULT_ANNOTATION_TYPE_TOPIC);
     m_annotation_type_pub = m_nh.advertise<std_msgs::UInt32>(param_string, 1, true);
+
+    m_nh.param<std::string>(PARAM_NAME_OBJECT_ID_TOPIC, param_string, PARAM_DEFAULT_OBJECT_ID_TOPIC);
+    m_object_id_sub = m_nh.subscribe(param_string, 1, &QRVizCloudAnnotation::onSetObjectId, this);
   }
 
   QBoxLayout *main_layout = new QBoxLayout(QBoxLayout::TopToBottom, this);
@@ -560,6 +563,10 @@ QRVizCloudAnnotation::QRVizCloudAnnotation(QWidget *parent) : rviz::Panel(parent
     m_current_page_label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     page_shift_layout->addWidget(m_current_page_label);
 
+    m_object_id = new QLabel("0/0", this);
+    m_object_id->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    page_shift_layout->addWidget(m_object_id);
+
     QLabel *view_label = new QLabel("显示:", this);
     view_label->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
     page_shift_layout->addWidget(view_label);
@@ -690,7 +697,7 @@ QRVizCloudAnnotation::QRVizCloudAnnotation(QWidget *parent) : rviz::Panel(parent
     m_set_name_edit = new QLineEdit("", this);
     set_name_layout->addWidget(m_set_name_edit);
     connect(m_set_name_edit, SIGNAL(returnPressed()), set_name_button,
-            SLOT(animateClick())); // won't work with qt5 syntax
+            SLOT(animateClick()));  // won't work with qt5 syntax
     connect(set_name_button, &QPushButton::clicked, this, &QRVizCloudAnnotation::onSendName);
   }
 
@@ -702,7 +709,7 @@ QRVizCloudAnnotation::QRVizCloudAnnotation(QWidget *parent) : rviz::Panel(parent
   SetCurrentLabel(1, 0);
 
   FillColorPageButtonStylesheet();
-} // namespace rviz_cloud_annotation
+}  // namespace rviz_cloud_annotation
 
 QRVizCloudAnnotation::~QRVizCloudAnnotation()
 {
@@ -799,7 +806,7 @@ void QRVizCloudAnnotation::onPointCountUpdate(const std_msgs::UInt64MultiArray &
     m_point_counters[index - 1] = value;
   }
 
-  //FillPointCounts();
+  // FillPointCounts();
 }
 
 void QRVizCloudAnnotation::onControlPointWeightInc()
@@ -971,10 +978,60 @@ void QRVizCloudAnnotation::onSetBiasZero(const std_msgs::Empty &msg)
   m_bias.push_back(0);
   m_bias.push_back(0);
 }
+void QRVizCloudAnnotation::onSetObjectId(const std_msgs::Int32 &msg)
+{
+  if (ANNOTATION_TYPE == BBOX)
+  {
+    bbox_id = msg.data;
+    std::string m_str_ = "BBOX ID : " + std::to_string(bbox_id);
+    m_object_id->setText(m_str_.c_str());
+  }
+  else if (ANNOTATION_TYPE == KERB)
+  {
+    kerb_id = msg.data;
+    std::string m_str_ = "路沿 ID : " + std::to_string(kerb_id);
+    m_object_id->setText(m_str_.c_str());
+  }
+  else if (ANNOTATION_TYPE == LANE)
+  {
+    lane_id = msg.data;
+    std::string m_str_ = "车道线 ID : " + std::to_string(lane_id);
+    m_object_id->setText(m_str_.c_str());
+  }
+  else if (ANNOTATION_TYPE == PLANE)
+  {
+    std::string m_str_ = "地面 ID : " + std::to_string(0);
+    m_object_id->setText(m_str_.c_str());
+  }
+}
+
+void QRVizCloudAnnotation::onChangeObjectId()
+{
+  if (ANNOTATION_TYPE == BBOX)
+  {
+    std::string m_str_ = "BBOX ID : " + std::to_string(bbox_id);
+    m_object_id->setText(m_str_.c_str());
+  }
+  else if (ANNOTATION_TYPE == KERB)
+  {
+    std::string m_str_ = "路沿 ID : " + std::to_string(kerb_id);
+    m_object_id->setText(m_str_.c_str());
+  }
+  else if (ANNOTATION_TYPE == LANE)
+  {
+    std::string m_str_ = "车道线 ID : " + std::to_string(lane_id);
+    m_object_id->setText(m_str_.c_str());
+  }
+  else if (ANNOTATION_TYPE == PLANE)
+  {
+    std::string m_str_ = "地面 ID : " + std::to_string(0);
+    m_object_id->setText(m_str_.c_str());
+  }
+}
 
 void QRVizCloudAnnotation::ColorToHex(const pcl::RGB &color, char color_hex[7])
 {
-  static const char HEX[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+  static const char HEX[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
   color_hex[0] = HEX[color.r / 16];
   color_hex[1] = HEX[color.r % 16];
   color_hex[2] = HEX[color.g / 16];
@@ -999,7 +1056,7 @@ void QRVizCloudAnnotation::FillColorPageButtonStylesheet()
 
     const pcl::RGB color = pcl::GlasbeyLUT::at(i);
 
-    const uint64 luminance = color.r / 3 + color.g / 2 + color.b / 6; // approximate
+    const uint64 luminance = color.r / 3 + color.g / 2 + color.b / 6;  // approximate
     const char *text_color = "black";
     if (luminance < 80)
       text_color = "white";
@@ -1038,18 +1095,18 @@ void QRVizCloudAnnotation::FillPointCounts(uint type)
       std::string m_str_;
       switch (m_label_)
       {
-      case 0:
-        m_str_ = "小车";
-        break;
-      case 1:
-        m_str_ = "大车";
-        break;
-      case 2:
-        m_str_ = "行人";
-        break;
-      case 3:
-        m_str_ = "骑行";
-        break;
+        case 0:
+          m_str_ = "小车";
+          break;
+        case 1:
+          m_str_ = "大车";
+          break;
+        case 2:
+          m_str_ = "行人";
+          break;
+        case 3:
+          m_str_ = "骑行";
+          break;
       }
       m_page_buttons[i]->setText(m_str_.c_str());
     }
@@ -1119,6 +1176,8 @@ void QRVizCloudAnnotation::onSetAnnotationType(uint32 annotation_type)
   ANNOTATION_TYPE = annotation_type;
 
   SetCurrentLabel(m_current_label, GetPageForLabel(m_current_label));
+
+  onChangeObjectId();
 }
 
 void QRVizCloudAnnotation::SetCurrentEditMode(const uint64 mode)
@@ -1134,24 +1193,24 @@ void QRVizCloudAnnotation::SetCurrentEditMode(const uint64 mode)
 
   switch (mode)
   {
-  case EDIT_MODE_NONE:
-    if (!m_edit_none_button->isChecked())
-      m_edit_none_button->setChecked(true);
-    break;
-  case EDIT_MODE_CONTROL_POINT:
-    if (!m_edit_control_point_button->isChecked())
-      m_edit_control_point_button->setChecked(true);
-    break;
-  case EDIT_MODE_ERASER:
-    if (!m_edit_eraser_button->isChecked())
-      m_edit_eraser_button->setChecked(true);
-    break;
-  case EDIT_MODE_COLOR_PICKER:
-    if (!m_edit_color_picker_button->isChecked())
-      m_edit_color_picker_button->setChecked(true);
-    break;
-  default:
-    break;
+    case EDIT_MODE_NONE:
+      if (!m_edit_none_button->isChecked())
+        m_edit_none_button->setChecked(true);
+      break;
+    case EDIT_MODE_CONTROL_POINT:
+      if (!m_edit_control_point_button->isChecked())
+        m_edit_control_point_button->setChecked(true);
+      break;
+    case EDIT_MODE_ERASER:
+      if (!m_edit_eraser_button->isChecked())
+        m_edit_eraser_button->setChecked(true);
+      break;
+    case EDIT_MODE_COLOR_PICKER:
+      if (!m_edit_color_picker_button->isChecked())
+        m_edit_color_picker_button->setChecked(true);
+      break;
+    default:
+      break;
   }
 }
 
@@ -1225,7 +1284,7 @@ void QRVizCloudAnnotation::onResetPointsSize()
 
 void QRVizCloudAnnotation::onSave()
 {
-  std_msgs::String filename; // NYI: select filename from GUI
+  std_msgs::String filename;  // NYI: select filename from GUI
   m_save_pub.publish(filename);
 }
 
@@ -1236,7 +1295,7 @@ void QRVizCloudAnnotation::onRestore()
                                                                    QMessageBox::Yes | QMessageBox::No);
   if (result == QMessageBox::Yes)
   {
-    std_msgs::String filename; // NYI: select filename from GUI
+    std_msgs::String filename;  // NYI: select filename from GUI
     m_restore_pub.publish(filename);
   }
 }
@@ -1284,7 +1343,7 @@ void QRVizCloudAnnotation::onClearCurrent()
 QRVizCloudAnnotation::uint64 QRVizCloudAnnotation::GetPageForLabel(const uint64 label) const
 {
   if (label == 0)
-    return 0; // should never happen
+    return 0;  // should never happen
 
   const uint64 size = m_color_cols_per_page * m_color_rows_per_page;
   return ((label - 1) / size);
@@ -1348,18 +1407,18 @@ void QRVizCloudAnnotation::SetCurrentLabel(const uint64 label, const uint64 page
     std::string m_str_;
     switch (m_label_)
     {
-    case 0:
-      m_str_ = "小型车";
-      break;
-    case 1:
-      m_str_ = "大型车";
-      break;
-    case 2:
-      m_str_ = "行人";
-      break;
-    case 3:
-      m_str_ = "骑行者";
-      break;
+      case 0:
+        m_str_ = "小型车";
+        break;
+      case 1:
+        m_str_ = "大型车";
+        break;
+      case 2:
+        m_str_ = "行人";
+        break;
+      case 3:
+        m_str_ = "骑行者";
+        break;
     }
     m_current_page_label->setText(m_str_.c_str());
   }
@@ -1468,7 +1527,7 @@ void QRVizCloudAnnotation::onBiasZ4()
   m_bias_pub.publish(bias);
 }
 
-} // namespace rviz_cloud_annotation
+}  // namespace rviz_cloud_annotation
 
 #include <pluginlib/class_list_macros.h>
 PLUGINLIB_EXPORT_CLASS(rviz_cloud_annotation::QRVizCloudAnnotation, rviz::Panel);

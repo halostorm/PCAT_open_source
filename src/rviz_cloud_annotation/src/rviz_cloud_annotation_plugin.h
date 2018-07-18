@@ -143,6 +143,9 @@ private Q_SLOTS:
 
   void onSetBiasZero(const std_msgs::Empty &msg);
 
+  void onSetObjectId(const std_msgs::Int32 &msg);
+  void onChangeObjectId();
+
   void onControlPointWeightSliderMoved(int new_value);
   void onControlPointWeightSliderSet(int new_value);
   void onControlPointWeightInc();
@@ -182,6 +185,10 @@ private:
   static void ColorToHex(const pcl::RGB &color, char hex[7]);
 
   uint64 m_current_edit_mode;
+
+  int32 bbox_id = 0;
+  int32 lane_id = 0;
+  int32 kerb_id = 0;
 
   // 0 for the eraser
   uint64 m_current_label;
@@ -235,6 +242,7 @@ private:
   ros::Publisher m_tool_type_pub;
 
   ros::Publisher m_annotation_type_pub;
+  ros::Subscriber m_object_id_sub;
 
   QPushButton *m_edit_none_button;
   QPushButton *m_edit_control_point_button;
@@ -288,6 +296,8 @@ private:
   QAction *m_redo_action;
 
   QLabel *m_current_page_label;
+
+  QLabel *m_object_id;
 
   QLabel *m_current_control_point_weight_label;
   QSlider *m_current_control_point_weight_slider;

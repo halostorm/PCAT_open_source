@@ -39,9 +39,9 @@
 #include <rviz_cloud_annotation/UndoRedoState.h>
 #include "point_neighborhood.h"
 #include "rviz_cloud_annotation.h"
+#include "rviz_cloud_annotation_params.h"
 #include "rviz_cloud_annotation_points.h"
 #include "rviz_cloud_annotation_undo.h"
-#include "rviz_cloud_annotation_params.h"
 
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -411,6 +411,8 @@ private:
 
   ros::Subscriber m_on_set_annotation_type_sub;
 
+  ros::Publisher m_object_id_pub;
+
   int32 m_control_yaw_step;
   int32 m_control_yaw_min;
   int32 m_control_yaw_max;
@@ -489,7 +491,7 @@ private:
 
   int PLANE_ID = 0;
 
-  float m_box_bias[100][6];
+  float m_box_bias[BBOXNUMBER_LINEPOINTNUMBER][6] = { { 0 } };
 
   float BBOX_YAW = 0;
 
@@ -497,11 +499,11 @@ private:
 
   bool if_tilt = false;
 
-  Uint64Vector ids_in_bbox[100];
+  Uint64Vector ids_in_bbox[BBOXNUMBER_LINEPOINTNUMBER];
 
-  Uint64Vector ids_in_kerb;
+  Uint64Vector ids_in_kerb[LINENUMBER];
 
-  Uint64Vector ids_in_lane;
+  Uint64Vector ids_in_lane[LINENUMBER];
 
   Uint64Vector ids_in_plane;
 
@@ -509,19 +511,19 @@ private:
 
   Uint64Vector ids_in_plane_flag;
 
-  float BBOX_SET[100][11];
+  float BBOX_SET[BBOXNUMBER_LINEPOINTNUMBER][11] = { { 0 } };
 
-  float BBOX_LABEL_SET[100][10];
+  float BBOX_LABEL_SET[BBOXNUMBER_LINEPOINTNUMBER][10] = { { 0 } };
 
-  float KERB_SET[100][3];
+  float KERB_SET[LINENUMBER][BBOXNUMBER_LINEPOINTNUMBER][3] = { { { 0 } } };
 
-  int KERB_SIZE = 0;
+  int KERB_SIZE[LINENUMBER] = { 0 };
 
-  float LANE_SET[100][3];
+  float LANE_SET[LINENUMBER][BBOXNUMBER_LINEPOINTNUMBER][3] = { { { 0 } } };
 
-  int LANE_SIZE = 0;
+  int LANE_SIZE[LINENUMBER] = { 0 };
 
-  float m_bbox_occluded[100];
+  float m_bbox_occluded[BBOXNUMBER_LINEPOINTNUMBER] = { 0 };
 
   Int64Vector m_label;
 
@@ -553,9 +555,9 @@ public:
 
   bool InBbox(float x, float y, float z, int i);
 
-  bool InKerb(float x, float y, float z, uint64 id);
+  bool InKerb(float x, float y, float z, uint64 id, int kerb_id);
 
-  bool InLane(float x, float y, float z, uint64 id);
+  bool InLane(float x, float y, float z, uint64 id, int lane_id);
 
   bool InPlane(float x, float y, float z, uint64 id);
 
@@ -573,29 +575,89 @@ public:
 
   void onNextObject(const std_msgs::Empty &)
   {
-    BBOX_ID++;
-    ROS_INFO("rviz_cloud_annotation:current BBOX ID: %i", BBOX_ID);
-    SendControlPointMaxWeight();
-    SendYawMin();
-    SendBiasZero();
+    std_msgs::Int32 msg;
+    if (ANNOTATION_TYPE == BBOX)
+    {
+      BBOX_ID++;
+      ROS_INFO("rviz_cloud_annotation:current BBOX ID: %i", BBOX_ID);
+      SendControlPointMaxWeight();
+      SendYawMin();
+      SendBiasZero();
+      msg.data = BBOX_ID;
+    }
+    else if (ANNOTATION_TYPE == KERB)
+    {
+      KERB_ID++;
+      ROS_INFO("rviz_cloud_annotation:current KERB_ID: %i", KERB_ID);
+      msg.data = KERB_ID;
+    }
+    else if (ANNOTATION_TYPE == LANE)
+    {
+      LANE_ID++;
+      ROS_INFO("rviz_cloud_annotation:current LANE_ID: %i", LANE_ID);
+      msg.data = LANE_ID;
+    }
+    m_object_id_pub.publish(msg);
   }
 
   void gotoNextObject()
   {
-    BBOX_ID++;
-    ROS_INFO("rviz_cloud_annotation:current BBOX ID: %i", BBOX_ID);
-    SendControlPointMaxWeight();
-    SendYawMin();
-    SendBiasZero();
+    std_msgs::Int32 msg;
+    if (ANNOTATION_TYPE == BBOX)
+    {
+      BBOX_ID++;
+      ROS_INFO("rviz_cloud_annotation:current BBOX ID: %i", BBOX_ID);
+      SendControlPointMaxWeight();
+      SendYawMin();
+      SendBiasZero();
+      msg.data = BBOX_ID;
+    }
+    else if (ANNOTATION_TYPE == KERB)
+    {
+      KERB_ID++;
+      ROS_INFO("rviz_cloud_annotation:current KERB_ID: %i", KERB_ID);
+      msg.data = KERB_ID;
+    }
+    else if (ANNOTATION_TYPE == LANE)
+    {
+      LANE_ID++;
+      ROS_INFO("rviz_cloud_annotation:current LANE_ID: %i", LANE_ID);
+      msg.data = LANE_ID;
+    }
+    m_object_id_pub.publish(msg);
   }
 
   void onPreObject(const std_msgs::Empty &)
   {
-    if (BBOX_ID > 0)
+    std_msgs::Int32 msg;
+    if (ANNOTATION_TYPE == BBOX)
     {
-      BBOX_ID--;
+      if (BBOX_ID > 0)
+      {
+        BBOX_ID--;
+        msg.data = BBOX_ID;
+      }
+      ROS_INFO("rviz_cloud_annotation:current BBOX ID: %i", BBOX_ID);
     }
-    ROS_INFO("rviz_cloud_annotation:current BBOX ID: %i", BBOX_ID);
+    else if (ANNOTATION_TYPE == KERB)
+    {
+      if (KERB_ID > 0)
+      {
+        KERB_ID--;
+        msg.data = KERB_ID;
+      }
+      ROS_INFO("rviz_cloud_annotation:current KERB_ID: %i", KERB_ID);
+    }
+    else if (ANNOTATION_TYPE == LANE)
+    {
+      if (LANE_ID > 0)
+      {
+        LANE_ID--;
+        msg.data = LANE_ID;
+      }
+      ROS_INFO("rviz_cloud_annotation:current LANE_ID: %i", LANE_ID);
+    }
+    m_object_id_pub.publish(msg);
   }
 
   float line(float v);
@@ -610,9 +672,9 @@ public:
   float m_sqrt(float x)
   {
     float half_x = 0.5 * x;
-    int i = *((int *)&x);              
-    i = 0x5f3759df - (i >> 1);         
-    x = *((float *)&i);                
+    int i = *((int *)&x);
+    i = 0x5f3759df - (i >> 1);
+    x = *((float *)&i);
     x = x * (1.5 - (half_x * x * x));
     return 1 / x;
   }
