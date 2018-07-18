@@ -590,6 +590,7 @@ rviz_cloud_annotation/CMakeFiles/rviz_cloud_annotation_node.dir/src/rviz_cloud_a
 rviz_cloud_annotation/CMakeFiles/rviz_cloud_annotation_node.dir/src/rviz_cloud_annotation.cpp.o: /home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation.cpp
 rviz_cloud_annotation/CMakeFiles/rviz_cloud_annotation_node.dir/src/rviz_cloud_annotation.cpp.o: /home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation.h
 rviz_cloud_annotation/CMakeFiles/rviz_cloud_annotation_node.dir/src/rviz_cloud_annotation.cpp.o: /home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation_class.h
+rviz_cloud_annotation/CMakeFiles/rviz_cloud_annotation_node.dir/src/rviz_cloud_annotation.cpp.o: /home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation_params.h
 rviz_cloud_annotation/CMakeFiles/rviz_cloud_annotation_node.dir/src/rviz_cloud_annotation.cpp.o: /home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation_point_plane.h
 rviz_cloud_annotation/CMakeFiles/rviz_cloud_annotation_node.dir/src/rviz_cloud_annotation.cpp.o: /home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation_points.h
 rviz_cloud_annotation/CMakeFiles/rviz_cloud_annotation_node.dir/src/rviz_cloud_annotation.cpp.o: /home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation_undo.h
@@ -922,6 +923,7 @@ rviz_cloud_annotation/CMakeFiles/rviz_cloud_annotation_node.dir/src/rviz_cloud_a
 rviz_cloud_annotation/CMakeFiles/rviz_cloud_annotation_node.dir/src/rviz_cloud_annotation_class.cpp.o: /home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation.h
 rviz_cloud_annotation/CMakeFiles/rviz_cloud_annotation_node.dir/src/rviz_cloud_annotation_class.cpp.o: /home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation_class.cpp
 rviz_cloud_annotation/CMakeFiles/rviz_cloud_annotation_node.dir/src/rviz_cloud_annotation_class.cpp.o: /home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation_class.h
+rviz_cloud_annotation/CMakeFiles/rviz_cloud_annotation_node.dir/src/rviz_cloud_annotation_class.cpp.o: /home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation_params.h
 rviz_cloud_annotation/CMakeFiles/rviz_cloud_annotation_node.dir/src/rviz_cloud_annotation_class.cpp.o: /home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation_point_plane.h
 rviz_cloud_annotation/CMakeFiles/rviz_cloud_annotation_node.dir/src/rviz_cloud_annotation_class.cpp.o: /home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation_points.h
 rviz_cloud_annotation/CMakeFiles/rviz_cloud_annotation_node.dir/src/rviz_cloud_annotation_class.cpp.o: /home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation_undo.h

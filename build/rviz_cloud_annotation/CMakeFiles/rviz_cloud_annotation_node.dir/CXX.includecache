@@ -135,6 +135,8 @@ rviz_cloud_annotation_points.h
 /home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation_points.h
 rviz_cloud_annotation_undo.h
 /home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation_undo.h
+rviz_cloud_annotation_params.h
+/home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation_params.h
 sys/stat.h
 -
 sys/types.h
@@ -194,6 +196,24 @@ pcl/point_cloud.h
 pcl/point_types.h
 -
 boost/lexical_cast.hpp
+-
+
+/home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation_params.h
+pcl/io/pcd_io.h
+-
+pcl/point_cloud.h
+-
+pcl/point_types.h
+-
+algorithm
+-
+boost/filesystem.hpp
+-
+boost/program_options.hpp
+-
+iostream
+-
+vector
 -
 
 /home/halo/nullmax_tool/src/rviz_cloud_annotation/src/rviz_cloud_annotation_point_plane.cpp

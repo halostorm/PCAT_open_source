@@ -941,11 +941,11 @@ void RVizCloudAnnotation::onClear(const std_msgs::UInt32 &label_msg)
 void RVizCloudAnnotation::LoadDataSet(std::string A, std::string B, std::string C, std::string D, std::string E,
                                       std::string F)
 {
-  DIR *dir = opendir(A.c_str());
+  // DIR *dir = opendir(A.c_str());
+  // dirent *p = NULL;  //定义遍历指针
+  // p = readdir(dir);
 
-  dirent *p = NULL;  //定义遍历指针
   StringVector label_files;
-
   //查看log文件
   std::ifstream ifile;
   ifile.open(m_log_file.c_str());
@@ -954,57 +954,54 @@ void RVizCloudAnnotation::LoadDataSet(std::string A, std::string B, std::string 
   while (std::getline(ifile, s))
   {
     label_files.push_back(s);
-    // ROS_INFO("rviz_cloud_annotation: label_files: %s", s.c_str());
+    ROS_INFO("rviz_cloud_annotation: label_files: %s", s.c_str());
   }
-  // ROS_INFO("rviz_cloud_annotation: OK1");
-  p = readdir(dir);
-  // ROS_INFO("rviz_cloud_annotation: OK2");
-  while ((p = readdir(dir)) != NULL)  //开始逐个遍历
+  
+  PointCloudFilesTool *pcft;
+  StringVector m_pcd_files;
+  pcft->getFilesList(A, m_pcd_files);
+  for (int k = 0; k < m_pcd_files.size(); k++)
   {
-    if (p->d_name[0] != '.' && p->d_name[0] != '_' &&
-        p->d_name[0] != 'a')  // d_name是一个char数组，存放当前遍历到的文件名
-    {  //这里需要注意，linux平台下一个目录中有"."和".."隐藏文件，需要过滤掉
-      bool ifNew = true;
-      std::string FILE_NAME = std::string(p->d_name);
+    bool ifNew = true;
+    std::string FILE_NAME = m_pcd_files[k];
 
-      std::string name = A + std::string(p->d_name);
+    std::string name = A + FILE_NAME;
 
-      // ROS_INFO("rviz_cloud_annotation: Dataset: %s", name.c_str());
-      for (int i = 0; i < label_files.size(); i++)
+    ROS_INFO("rviz_cloud_annotation: Dataset: %s", name.c_str());
+    for (int i = 0; i < label_files.size(); i++)
+    {
+      if (name.compare(label_files[i]) == 0)
       {
-        if (name.compare(label_files[i]) == 0)
-        {
-          // ROS_INFO("rviz_cloud_annotation: find labeled files: %s", name.c_str());
-          ifNew = false;
-          break;
-        }
-      }
-      if (ifNew)
-      {
-        // ROS_INFO("rviz_cloud_annotation: Dataset: %s", name.c_str());
-        m_dataset_files.push_back(name.c_str());
-
-        std::string index = FILE_NAME.substr(0, FILE_NAME.length() - 4);
-
-        name = B + index + std::string(".pcd");
-        // ROS_INFO("rviz_cloud_annotation: Annotation Clouds: %s", name.c_str());
-        m_annotation_cloud_files.push_back(name.c_str());
-
-        name = C + index + std::string(".ann");
-        // ROS_INFO("rviz_cloud_annotation: Annotation Files: %s", name.c_str());
-        m_annotation_file_files.push_back(name.c_str());
-
-        name = D + index + std::string(".txt");
-        // ROS_INFO("rviz_cloud_annotation: BBox: %s", name.c_str());
-        m_bbox_files.push_back(name.c_str());
-
-        name = E + index + std::string(".txt");
-        // ROS_INFO("rviz_cloud_annotation: Label: %s", name.c_str());
-        m_label_files.push_back(name.c_str());
+        // ROS_INFO("rviz_cloud_annotation: find labeled files: %s", name.c_str());
+        ifNew = false;
+        break;
       }
     }
+    if (ifNew)
+    {
+      // ROS_INFO("rviz_cloud_annotation: Dataset: %s", name.c_str());
+      m_dataset_files.push_back(name.c_str());
+
+      std::string index = FILE_NAME.substr(0, FILE_NAME.length() - 4);
+
+      name = B + index + std::string(".pcd");
+      // ROS_INFO("rviz_cloud_annotation: Annotation Clouds: %s", name.c_str());
+      m_annotation_cloud_files.push_back(name.c_str());
+
+      name = C + index + std::string(".ann");
+      // ROS_INFO("rviz_cloud_annotation: Annotation Files: %s", name.c_str());
+      m_annotation_file_files.push_back(name.c_str());
+
+      name = D + index + std::string(".txt");
+      // ROS_INFO("rviz_cloud_annotation: BBox: %s", name.c_str());
+      m_bbox_files.push_back(name.c_str());
+
+      name = E + index + std::string(".txt");
+      // ROS_INFO("rviz_cloud_annotation: Label: %s", name.c_str());
+      m_label_files.push_back(name.c_str());
+    }
   }
-  closedir(dir);  //关闭指定目录
+  //closedir(dir);  //关闭指定目录
 }
 
 void RVizCloudAnnotation::onNew(const std_msgs::UInt32 &label_msg)
@@ -1707,7 +1704,7 @@ void RVizCloudAnnotation::generatePlane(const PointXYZRGBNormalCloud &cloud)
       marker.points.push_back(P);
     }
   }
-  //ROS_INFO("rviz_cloud_annotation: True 1");
+  // ROS_INFO("rviz_cloud_annotation: True 1");
   plane_marker_pub.publish(marker);
   ROS_INFO("rviz_cloud_annotation: publish plane");
 }

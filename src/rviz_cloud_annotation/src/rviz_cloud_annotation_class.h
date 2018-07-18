@@ -41,6 +41,7 @@
 #include "rviz_cloud_annotation.h"
 #include "rviz_cloud_annotation_points.h"
 #include "rviz_cloud_annotation_undo.h"
+#include "rviz_cloud_annotation_params.h"
 
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -83,15 +84,6 @@
 
 #define KEYDOWN(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 1 : 0)
 #define KEYUP(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 0 : 1)
-
-#define _M_PI 3.1415926
-
-#define DISTANCE_LIMMIT 20
-
-#define HEIGHT_LIMMIT 2
-
-#define _max(a, b) (((a) > (b)) ? (a) : (b))
-#define _min(a, b) (((a) > (b)) ? (b) : (a))
 
 class RVizCloudAnnotation  //点云标注Main类
 {
@@ -618,10 +610,10 @@ public:
   float m_sqrt(float x)
   {
     float half_x = 0.5 * x;
-    int i = *((int *)&x);              // 以整数方式读取X
-    i = 0x5f3759df - (i >> 1);         // 神奇的步骤
-    x = *((float *)&i);                // 再以浮点方式读取i
-    x = x * (1.5 - (half_x * x * x));  // 牛顿迭代一遍提高精度
+    int i = *((int *)&x);              
+    i = 0x5f3759df - (i >> 1);         
+    x = *((float *)&i);                
+    x = x * (1.5 - (half_x * x * x));
     return 1 / x;
   }
 };
