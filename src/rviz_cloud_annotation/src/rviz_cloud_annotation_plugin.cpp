@@ -215,7 +215,7 @@ QRVizCloudAnnotation::QRVizCloudAnnotation(QWidget *parent) : rviz::Panel(parent
 
     QMenu *file_menu = menu_bar->addMenu("文件");
 
-    QAction *new_action = new QAction("新文件", menu_bar);
+    QAction *new_action = new QAction("切换下一帧文件", menu_bar);
     new_action->setShortcut(QKeySequence("Ctrl+Shift+O"));
     file_menu->addAction(new_action);
     connect(new_action, &QAction::triggered, this, &QRVizCloudAnnotation::onNew, Qt::QueuedConnection);

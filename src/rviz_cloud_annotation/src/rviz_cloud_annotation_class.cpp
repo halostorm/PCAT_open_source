@@ -405,7 +405,11 @@ void RVizCloudAnnotation::colorize_point_cloud(double intensity, PointXYZRGB *sa
 {  // This function adds RGB color to points in the point cloud based on each point's refelctivity.
   // Blue: Low reflectivity, Yellow/Green: Medium reflectivity, Red: High reflectivity
   // ROS_INFO("rviz_cloud_annotation: intensity %f", intensity);
-  intensity = intensity * 255 / 100;
+  if (intensity > 1)
+  {
+    intensity = intensity / 100;
+  }
+  intensity = intensity * 255;
   int r, g, b;
   double intensity_range = 255;  // any intensity value above this value will be red
   double wavelength;
@@ -729,6 +733,11 @@ RVizCloudAnnotation::uint64 RVizCloudAnnotation::GetClickedPointId(const Interac
       std::vector<int> idxs(1);
       std::vector<float> dsts(1);
 
+      if (m_kdtree->nearestKSearch(click_pt, 1, idxs, dsts) <= 0)
+      {
+        ROS_WARN("rviz_cloud_annotation: point was clicked, but no nearest cloud point found.");
+        return 0;
+      }
       const uint64 idx = idxs[0];
       const float dst = std::sqrt(dsts[0]);
 
@@ -956,7 +965,7 @@ void RVizCloudAnnotation::LoadDataSet(std::string A, std::string B, std::string 
     label_files.push_back(s);
     ROS_INFO("rviz_cloud_annotation: label_files: %s", s.c_str());
   }
-  
+
   PointCloudFilesTool *pcft;
   StringVector m_pcd_files;
   pcft->getFilesList(A, m_pcd_files);
@@ -1001,7 +1010,7 @@ void RVizCloudAnnotation::LoadDataSet(std::string A, std::string B, std::string 
       m_label_files.push_back(name.c_str());
     }
   }
-  //closedir(dir);  //关闭指定目录
+  // closedir(dir);  //关闭指定目录
 }
 
 void RVizCloudAnnotation::onNew(const std_msgs::UInt32 &label_msg)
@@ -1681,7 +1690,7 @@ void RVizCloudAnnotation::generatePlane(const PointXYZRGBNormalCloud &cloud)
   marker.color.r = 0.8;
   marker.color.g = 0.8;
   marker.color.b = 0.8;
-  marker.color.a = 0.5;
+  marker.color.a = 0.8;
 
   ROS_INFO("rviz_cloud_annotation: plane_size: %ld", (ids_in_plane.size() - 1));
   if (ids_in_plane.size() < 3)
