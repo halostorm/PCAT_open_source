@@ -305,12 +305,12 @@ QRVizCloudAnnotation::QRVizCloudAnnotation(QWidget *parent) : rviz::Panel(parent
 
     QAction *next_object = new QAction("下一个物体", menu_bar);
     next_menu->addAction(next_object);
-    next_object->setShortcut(QKeySequence("Ctrl+Shift+N"));
+    next_object->setShortcut(QKeySequence("Shift+N"));
     connect(next_object, &QAction::triggered, this, &QRVizCloudAnnotation::onNextObject, Qt::QueuedConnection);
 
     QAction *pre_object = new QAction("上一个物体", menu_bar);
     next_menu->addAction(pre_object);
-    pre_object->setShortcut(QKeySequence("Ctrl+Shift+P"));
+    pre_object->setShortcut(QKeySequence("Shift+P"));
     connect(pre_object, &QAction::triggered, this, &QRVizCloudAnnotation::onPreObject, Qt::QueuedConnection);
 
     // go to submenu
