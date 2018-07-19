@@ -1,2 +1,0 @@
-set(rviz_cloud_annotation_MESSAGE_FILES "/home/halo/nullmax_tool/src/rviz_cloud_annotation/msg/UndoRedoState.msg;/home/halo/nullmax_tool/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg")
-set(rviz_cloud_annotation_SERVICE_FILES "")
