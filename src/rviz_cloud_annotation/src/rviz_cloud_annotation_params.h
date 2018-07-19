@@ -7,8 +7,6 @@
 #include <iostream>
 #include <vector>
 
-#define _M_PI 3.1415926
-
 #define BBOXNUMBER_LINEPOINTNUMBER 100
 
 #define LINENUMBER 10

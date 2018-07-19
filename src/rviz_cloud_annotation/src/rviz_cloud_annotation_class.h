@@ -42,6 +42,7 @@
 #include "rviz_cloud_annotation_params.h"
 #include "rviz_cloud_annotation_points.h"
 #include "rviz_cloud_annotation_undo.h"
+#include "point_cloud_feature_plane.h"
 
 #include <sys/stat.h>
 #include <sys/types.h>

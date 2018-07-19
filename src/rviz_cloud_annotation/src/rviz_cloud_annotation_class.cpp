@@ -397,6 +397,16 @@ void RVizCloudAnnotation::LoadCloud(const std::string &filename, const std::stri
   {
     ids_in_plane_flag.push_back(0);
   }
+
+  // Hough Transform 检测平面，速度太慢
+  // PointCloudFeaturePlane pcfp;
+  // pcfp.generate_blocks_value();
+  // clock_t start, finish;
+  // start = clock();
+  // pcfp.vote_blocks(cloud);
+  // finish = clock();
+  // int deltTime = (finish - start) / CLOCKS_PER_SEC;
+  // ROS_INFO("rviz_cloud_annotation: cost time: %d (s)", deltTime);
 }
 
 void RVizCloudAnnotation::colorize_point_cloud(double intensity, PointXYZRGB *sample)
