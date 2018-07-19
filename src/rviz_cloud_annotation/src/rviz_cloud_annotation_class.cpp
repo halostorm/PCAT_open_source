@@ -1042,7 +1042,7 @@ void RVizCloudAnnotation::onNew(const std_msgs::UInt32 &label_msg)
   if (FILE_ID < m_dataset_files.size() - 1)
   {
     FILE_ID++;
-    //m_dataset_files.erase(m_dataset_files.begin() + FILE_ID);
+    // m_dataset_files.erase(m_dataset_files.begin() + FILE_ID);
     InitNewCloud(*nh);
   }
 }
@@ -1888,8 +1888,6 @@ void RVizCloudAnnotation::generateBbox(const PointXYZRGBNormalCloud &cloud, bool
     ROS_INFO("rviz_cloud_annotation: shape[x1 %f x2 %f y1 %f y2 %f z1 %f z3 %f]", shape[0], shape[1], shape[2],
              shape[3], shape[4], shape[5]);
     shape_ = shape;
-
-    AddBbox(0, 0, shape[1], shape[0], shape[3], shape[2], shape[5], shape[4], if_tilt);
   }
   else
   {
@@ -1902,23 +1900,26 @@ void RVizCloudAnnotation::generateBbox(const PointXYZRGBNormalCloud &cloud, bool
       const Eigen::Vector3f ept_(ppt_.x, ppt_.y, ppt_.z);
       const Eigen::Vector3f r_ept_ = ept_;
 
-      if (line(r_ept_.x(), r_ept_.y(), true) < line(s[0], s[1], true))
+      float A = tan(BBOX_YAW);
+      float B = tan(BBOX_YAW - _M_PI * 0.5);
+
+      if (line(r_ept_.x(), r_ept_.y(), A) < line(s[0], s[1], A))
       {
         s[0] = r_ept_.x();
         s[1] = r_ept_.y();
       }
-      else if (line(r_ept_.x(), r_ept_.y(), true) > line(s[2], s[3], true))
+      else if (line(r_ept_.x(), r_ept_.y(), A) > line(s[2], s[3], A))
       {
         s[2] = r_ept_.x();
         s[3] = r_ept_.y();
       }
 
-      if (line(r_ept_.x(), r_ept_.y(), false) < line(s[4], s[5], false))
+      if (line(r_ept_.x(), r_ept_.y(), B) < line(s[4], s[5], B))
       {
         s[4] = r_ept_.x();
         s[5] = r_ept_.y();
       }
-      else if (line(r_ept_.x(), r_ept_.y(), false) > line(s[6], s[7], false))
+      else if (line(r_ept_.x(), r_ept_.y(), B) > line(s[6], s[7], B))
       {
         s[6] = r_ept_.x();
         s[7] = r_ept_.y();
@@ -1943,7 +1944,9 @@ void RVizCloudAnnotation::generateBbox(const PointXYZRGBNormalCloud &cloud, bool
     s[8] += m_box_bias[BBOX_ID][4];
     s[9] += m_box_bias[BBOX_ID][5];
 
-    ROS_INFO("rviz_cloud_annotation: Yaw sin: %f", sin(BBOX_YAW));
+    //ROS_INFO("rviz_cloud_annotation: Yaw sin: %f", sin(BBOX_YAW));
+
+    //ROS_INFO("rviz_cloud_annotation: S: %f %f %f %f %f %f %f %f %f %f", s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7], s[8], s[9]);
 
     float shape[10];
     float A = tan(BBOX_YAW);
@@ -1971,6 +1974,7 @@ void RVizCloudAnnotation::generateBbox(const PointXYZRGBNormalCloud &cloud, bool
     shape_ = shape;
 
     AddBbox(A, B, B1, B2, B3, B4, shape[9], shape[8], if_tilt);
+    //ROS_INFO("rviz_cloud_annotation: Bbox:  %f  %f  %f  %f  %f  %f  %f  %f", A, B, B1, B2, B3, B4, shape[9], shape[8]);
   }
 
   BboxToMarker(shape_, BBOX_ID, if_tilt);
@@ -2159,17 +2163,12 @@ float RVizCloudAnnotation::line(float v)
   return v;
 }
 
-float RVizCloudAnnotation::line(float x, float y, bool axis)
+float RVizCloudAnnotation::line(float x, float y, float k)
 {
   float b;
-  if (axis == true)
-  {
-    b = y - tan(BBOX_YAW) * x;
-  }
-  else
-  {
-    b = y - tan(BBOX_YAW - _M_PI * 0.5) * x;
-  }
+
+  b = y - k * x;
+
   return b;
 }
 
@@ -2188,6 +2187,8 @@ void RVizCloudAnnotation::AddBbox(float A, float B, float B1, float B2, float B3
 
   BBOX_SET[BBOX_ID][10] = 1000;
 
+  ROS_INFO("rviz_cloud_annotation: if tilt: %d", tilt == true ? 1 : -1);
+
   if (tilt == true)
   {
     BBOX_SET[BBOX_ID][9] = 1;
@@ -2197,9 +2198,8 @@ void RVizCloudAnnotation::AddBbox(float A, float B, float B1, float B2, float B3
     BBOX_SET[BBOX_ID][9] = -1;
   }
 
-  // ROS_INFO("rviz_cloud_annotation: New BBOX [%i]:  %f  %f  %f  %f  %f  %f  %f  %f  %f %f %f", BBOX_ID, A, B, B1, B2,
-  // B3,
-  //          B4, C1, C2, m_current_label, BBOX_SET[BBOX_ID][9], BBOX_SET[BBOX_ID][10]);
+  ROS_INFO("rviz_cloud_annotation: New BBOX [%i]:  %f  %f  %f  %f  %f  %f  %f  %f params： %lu %f %f", BBOX_ID, A, B,
+           B1, B2, B3, B4, C1, C2, m_current_label, BBOX_SET[BBOX_ID][9], BBOX_SET[BBOX_ID][10]);
 }
 
 void RVizCloudAnnotation::FinalLabel(PointXYZRGBNormalCloud &cloud)
@@ -2286,11 +2286,15 @@ bool RVizCloudAnnotation::InBbox(float x, float y, float z, int i)
       return false;
     }
   }
-  else  // tilt
+  else if (BBOX_SET[i][9] > 0)  // tilt
   {
-    if ((y - A * x - B1) <= 0 && (y - A * x - B2) >= 0 && (y - B * x - B3) <= 0 && (y - B * x - B4) >= 0 && z <= C1 &&
+    // ROS_INFO("rviz_cloud_annotation: exist 1 ");
+    //ROS_INFO("rviz_cloud_annotation: BBOX try:  %f  %f  %f  %f  %f  %f  %f  %f ", A, B, B1, B2, B3, B4, C1, C2);
+
+    if ((y - B * x - B1) <= 0 && (y - B * x - B2) >= 0 && (y - A * x - B3) <= 0 && (y - A * x - B4) >= 0 && z <= C1 &&
         z >= C2)
     {
+      //ROS_INFO("rviz_cloud_annotation: exist 2 ");
       return true;
     }
     else

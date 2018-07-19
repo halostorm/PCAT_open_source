@@ -661,7 +661,7 @@ public:
   }
 
   float line(float v);
-  float line(float x, float y, bool axis);
+  float line(float x, float y, float k);
 
   void int2str(const int &int_temp, std::string &string_temp)
   {

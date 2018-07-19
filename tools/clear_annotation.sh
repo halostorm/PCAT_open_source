@@ -1,4 +1,4 @@
-cd ~/lidar_annotation/
+cd $HOME/lidar_annotation/
 
 rm -rf _annotation/
 rm -rf _bbox/
