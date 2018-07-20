@@ -94,7 +94,9 @@ Copy 待标注的点云.pcd格式文件到 lidar_annotation/pcd/ 文件夹下
 |Shift+P|上一物体|T，G|调节遮挡系数|
 |R，F|调节方位|W，S，A，D，Q，E|调节BBox大小|
 ### 2. 标注教程
-`首次使用请务必观看标注教程` [**Nullmax Tool Video**](http://)
+`首次使用请务必观看标注教程` 
+[https://pan.baidu.com/s/1qrHMToZx7mK5linGElsmJQ] 密码: jajm
+为保证清晰度，请下载播放 
 ```
 特别说明
 1.点云被重复标记为 BBox，路沿，车道线，地面时，标签优先级为 BBOX > 路沿/车道线 > 地面
