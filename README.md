@@ -3,7 +3,7 @@
 ##I. 配置使用环境及安装
 - `配置要求：ubuntu16.04 + ROS Kinetic`
 ### 1. **安装ROS-Kinetic**
-参考[ROS WiKi-安装说明](http://http://wiki.ros.org/kinetic/Installation/Ubuntu)
+参考[ROS WiKi-安装说明](http://wiki.ros.org/kinetic/Installation/Ubuntu)
 ```添加ROS源：
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 添加ROS源秘钥：
@@ -95,7 +95,7 @@ Copy 待标注的点云.pcd格式文件到 lidar_annotation/pcd/ 文件夹下
 |R，F|调节方位|W，S，A，D，Q，E|调节BBox大小|
 ### 2. 标注教程
 `首次使用请务必观看标注教程` 
-[https://pan.baidu.com/s/1qrHMToZx7mK5linGElsmJQ] 密码: jajm
+[https://pan.baidu.com/s/1qrHMToZx7mK5linGElsmJQ] 密码: jajm，
 为保证清晰度，请下载播放 
 ```
 特别说明
