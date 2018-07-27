@@ -6,4 +6,4 @@ source setup.bash
 
 cd $pwd ..
 
-roslaunch src/rviz_cloud_annotation/launch/annotation.launch
+roslaunch rviz_cloud_annotation annotation.launch

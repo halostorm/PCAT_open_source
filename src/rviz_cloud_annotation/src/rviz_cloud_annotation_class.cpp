@@ -670,13 +670,13 @@ void RVizCloudAnnotation::SetEditMode(const uint64 new_edit_mode)
   msg.data = m_edit_mode;
   m_set_edit_mode_pub.publish(msg);
 
-  ROS_INFO("rviz_cloud_annotation: OK5");
+  //ROS_INFO("rviz_cloud_annotation: OK5");
 
   if (send_cloud)
   {
     SendCloudMarker(false);
     SendControlPointsMarker(RangeUint64(1, m_annotation->GetNextLabel()), true);
-    ROS_INFO("rviz_cloud_annotation: OK6");
+    //ROS_INFO("rviz_cloud_annotation: OK6");
   }
 }
 
@@ -1721,7 +1721,7 @@ void RVizCloudAnnotation::generatePlane(const PointXYZRGBNormalCloud &cloud)
   {
     if (ids_in_plane[i] != 0)
     {
-      ROS_INFO("rviz_cloud_annotation: ids_in_plane[i]: %ld", ids_in_plane[i]);
+      //ROS_INFO("rviz_cloud_annotation: ids_in_plane[i]: %ld", ids_in_plane[i]);
       const PointXYZRGBNormal &ppt = cloud[ids_in_plane[i]];
 
       const Eigen::Vector3f ept(ppt.x, ppt.y, ppt.z);
