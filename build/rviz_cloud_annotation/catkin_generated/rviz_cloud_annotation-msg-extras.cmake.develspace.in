@@ -1,2 +1,2 @@
-set(rviz_cloud_annotation_MESSAGE_FILES "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg;/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg")
+set(rviz_cloud_annotation_MESSAGE_FILES "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg;/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg")
 set(rviz_cloud_annotation_SERVICE_FILES "")

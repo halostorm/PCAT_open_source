@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/halo/Columbus_Annotation_Tools/src
+CMAKE_SOURCE_DIR = /home/halo/WorkSpace/Columbus_Annotation_Tools/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/halo/Columbus_Annotation_Tools/build
+CMAKE_BINARY_DIR = /home/halo/WorkSpace/Columbus_Annotation_Tools/build
 
 # Utility rule file for download_extra_data.
 
@@ -67,6 +67,6 @@ CMakeFiles/download_extra_data.dir/clean:
 .PHONY : CMakeFiles/download_extra_data.dir/clean
 
 CMakeFiles/download_extra_data.dir/depend:
-	cd /home/halo/Columbus_Annotation_Tools/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/halo/Columbus_Annotation_Tools/src /home/halo/Columbus_Annotation_Tools/src /home/halo/Columbus_Annotation_Tools/build /home/halo/Columbus_Annotation_Tools/build /home/halo/Columbus_Annotation_Tools/build/CMakeFiles/download_extra_data.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/halo/WorkSpace/Columbus_Annotation_Tools/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/halo/WorkSpace/Columbus_Annotation_Tools/src /home/halo/WorkSpace/Columbus_Annotation_Tools/src /home/halo/WorkSpace/Columbus_Annotation_Tools/build /home/halo/WorkSpace/Columbus_Annotation_Tools/build /home/halo/WorkSpace/Columbus_Annotation_Tools/build/CMakeFiles/download_extra_data.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/download_extra_data.dir/depend
 

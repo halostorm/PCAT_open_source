@@ -1,2 +1,2 @@
 rviz_cloud_annotation
--DCATKIN_DEVEL_PREFIX=/home/halo/Columbus_Annotation_Tools/devel -DCMAKE_INSTALL_PREFIX=/home/halo/Columbus_Annotation_Tools/install -G Unix Makefiles
+-DCATKIN_DEVEL_PREFIX=/home/halo/WorkSpace/Columbus_Annotation_Tools/devel -DCMAKE_INSTALL_PREFIX=/home/halo/WorkSpace/Columbus_Annotation_Tools/install -G Unix Makefiles

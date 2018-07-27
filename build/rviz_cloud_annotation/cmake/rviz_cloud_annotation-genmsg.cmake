@@ -2,7 +2,7 @@
 
 message(STATUS "rviz_cloud_annotation: 2 messages, 0 services")
 
-set(MSG_I_FLAGS "-Irviz_cloud_annotation:/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg;-Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg;-Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg")
+set(MSG_I_FLAGS "-Irviz_cloud_annotation:/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg;-Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg;-Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg")
 
 # Find all generators
 find_package(gencpp REQUIRED)
@@ -17,14 +17,14 @@ add_custom_target(rviz_cloud_annotation_generate_messages ALL)
 
 
 
-get_filename_component(_filename "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg" NAME_WE)
+get_filename_component(_filename "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg" NAME_WE)
 add_custom_target(_rviz_cloud_annotation_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "rviz_cloud_annotation" "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg" "geometry_msgs/Quaternion:geometry_msgs/Pose:geometry_msgs/Point"
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "rviz_cloud_annotation" "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg" ""
 )
 
-get_filename_component(_filename "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg" NAME_WE)
+get_filename_component(_filename "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg" NAME_WE)
 add_custom_target(_rviz_cloud_annotation_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "rviz_cloud_annotation" "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg" ""
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "rviz_cloud_annotation" "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg" "geometry_msgs/Quaternion:geometry_msgs/Pose:geometry_msgs/Point"
 )
 
 #
@@ -34,15 +34,15 @@ add_custom_target(_rviz_cloud_annotation_generate_messages_check_deps_${_filenam
 ### Section generating for lang: gencpp
 ### Generating Messages
 _generate_msg_cpp(rviz_cloud_annotation
-  "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg"
+  "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/rviz_cloud_annotation
 )
 _generate_msg_cpp(rviz_cloud_annotation
-  "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg"
+  "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg"
   "${MSG_I_FLAGS}"
-  ""
+  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/rviz_cloud_annotation
 )
 
@@ -60,9 +60,9 @@ add_custom_target(rviz_cloud_annotation_generate_messages_cpp
 add_dependencies(rviz_cloud_annotation_generate_messages rviz_cloud_annotation_generate_messages_cpp)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg" NAME_WE)
+get_filename_component(_filename "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg" NAME_WE)
 add_dependencies(rviz_cloud_annotation_generate_messages_cpp _rviz_cloud_annotation_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg" NAME_WE)
+get_filename_component(_filename "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg" NAME_WE)
 add_dependencies(rviz_cloud_annotation_generate_messages_cpp _rviz_cloud_annotation_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -75,15 +75,15 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS rviz_cloud_annotation_generate_mess
 ### Section generating for lang: geneus
 ### Generating Messages
 _generate_msg_eus(rviz_cloud_annotation
-  "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg"
+  "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/rviz_cloud_annotation
 )
 _generate_msg_eus(rviz_cloud_annotation
-  "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg"
+  "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg"
   "${MSG_I_FLAGS}"
-  ""
+  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/rviz_cloud_annotation
 )
 
@@ -101,9 +101,9 @@ add_custom_target(rviz_cloud_annotation_generate_messages_eus
 add_dependencies(rviz_cloud_annotation_generate_messages rviz_cloud_annotation_generate_messages_eus)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg" NAME_WE)
+get_filename_component(_filename "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg" NAME_WE)
 add_dependencies(rviz_cloud_annotation_generate_messages_eus _rviz_cloud_annotation_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg" NAME_WE)
+get_filename_component(_filename "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg" NAME_WE)
 add_dependencies(rviz_cloud_annotation_generate_messages_eus _rviz_cloud_annotation_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -116,15 +116,15 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS rviz_cloud_annotation_generate_mess
 ### Section generating for lang: genlisp
 ### Generating Messages
 _generate_msg_lisp(rviz_cloud_annotation
-  "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg"
+  "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/rviz_cloud_annotation
 )
 _generate_msg_lisp(rviz_cloud_annotation
-  "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg"
+  "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg"
   "${MSG_I_FLAGS}"
-  ""
+  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/rviz_cloud_annotation
 )
 
@@ -142,9 +142,9 @@ add_custom_target(rviz_cloud_annotation_generate_messages_lisp
 add_dependencies(rviz_cloud_annotation_generate_messages rviz_cloud_annotation_generate_messages_lisp)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg" NAME_WE)
+get_filename_component(_filename "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg" NAME_WE)
 add_dependencies(rviz_cloud_annotation_generate_messages_lisp _rviz_cloud_annotation_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg" NAME_WE)
+get_filename_component(_filename "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg" NAME_WE)
 add_dependencies(rviz_cloud_annotation_generate_messages_lisp _rviz_cloud_annotation_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -157,15 +157,15 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS rviz_cloud_annotation_generate_mess
 ### Section generating for lang: gennodejs
 ### Generating Messages
 _generate_msg_nodejs(rviz_cloud_annotation
-  "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg"
+  "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/rviz_cloud_annotation
 )
 _generate_msg_nodejs(rviz_cloud_annotation
-  "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg"
+  "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg"
   "${MSG_I_FLAGS}"
-  ""
+  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/rviz_cloud_annotation
 )
 
@@ -183,9 +183,9 @@ add_custom_target(rviz_cloud_annotation_generate_messages_nodejs
 add_dependencies(rviz_cloud_annotation_generate_messages rviz_cloud_annotation_generate_messages_nodejs)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg" NAME_WE)
+get_filename_component(_filename "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg" NAME_WE)
 add_dependencies(rviz_cloud_annotation_generate_messages_nodejs _rviz_cloud_annotation_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg" NAME_WE)
+get_filename_component(_filename "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg" NAME_WE)
 add_dependencies(rviz_cloud_annotation_generate_messages_nodejs _rviz_cloud_annotation_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -198,15 +198,15 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS rviz_cloud_annotation_generate_mess
 ### Section generating for lang: genpy
 ### Generating Messages
 _generate_msg_py(rviz_cloud_annotation
-  "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg"
+  "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ""
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/rviz_cloud_annotation
 )
 _generate_msg_py(rviz_cloud_annotation
-  "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg"
+  "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg"
   "${MSG_I_FLAGS}"
-  ""
+  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Point.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/rviz_cloud_annotation
 )
 
@@ -224,9 +224,9 @@ add_custom_target(rviz_cloud_annotation_generate_messages_py
 add_dependencies(rviz_cloud_annotation_generate_messages rviz_cloud_annotation_generate_messages_py)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg" NAME_WE)
+get_filename_component(_filename "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg" NAME_WE)
 add_dependencies(rviz_cloud_annotation_generate_messages_py _rviz_cloud_annotation_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/halo/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/UndoRedoState.msg" NAME_WE)
+get_filename_component(_filename "/home/halo/WorkSpace/Columbus_Annotation_Tools/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg" NAME_WE)
 add_dependencies(rviz_cloud_annotation_generate_messages_py _rviz_cloud_annotation_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
