@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 2.8)
 project(rviz_cloud_annotation)
 
 find_package(catkin REQUIRED COMPONENTS
@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   rviz
 )
 
+find_package(OpenCV)
 find_package(Eigen3 REQUIRED)
 find_package(Boost REQUIRED)
 find_package(PCL 1.8)
@@ -60,6 +61,7 @@ include_directories(
   ${PCL_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
   ${Eigen3_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
 )
 
 add_executable(rviz_cloud_annotation_node
@@ -80,4 +82,5 @@ target_link_libraries(
   ${Boost_LIBRARIES}
   ${Eigen3_LIBRARIES}
   ${catkin_LIBRARIES}
+  ${OpenCV_LIBRARIES}
 )

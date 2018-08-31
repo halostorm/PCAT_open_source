@@ -4,6 +4,7 @@
     <param name="update_topic" type="string" value="/point_cloud" />
     <param name="LogFile" type="string" value="$(env HOME)/lidar_annotation/annotation.log" />
     <param name="cloud_file_folder" type="string" value="$(env HOME)/lidar_annotation/pcd/" />
+    <param name="image_file_folder" type="string" value="$(env HOME)/lidar_annotation/image/" />
     <param name="annotation_file_folder" type="string" value="$(env HOME)/lidar_annotation/_annotation/" />
     <param name="annotation_cloud_folder" type="string" value="$(env HOME)/lidar_annotation/_pcd/" />
     <param name="bbox_names_file_folder" type="string" value="$(env HOME)/lidar_annotation/_bbox/" />

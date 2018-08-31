@@ -9,13 +9,15 @@
 
 #define BBOXNUMBER_LINEPOINTNUMBER 100
 
-#define LINENUMBER 10
+#define LINENUMBER 30
 
 #define DISTANCE_LIMMIT 20
-#define HEIGHT_LIMMIT 2
+#define HEIGHT_LIMMIT 1.5
 
 #define _max(a, b) (((a) > (b)) ? (a) : (b))
 #define _min(a, b) (((a) > (b)) ? (b) : (a))
+
+#define _M_PI 3.141592653
 
 namespace po = boost::program_options;
 namespace fs = boost::filesystem;
@@ -33,6 +35,7 @@ public:
     }
   };
 
+  //数据集按名称排序
   int getFilesList(const std::string &path_name, StringVector &m_pcd_files)
   {
     std::vector<fs::path> files_list;
@@ -53,8 +56,6 @@ public:
 
     for (std::vector<fs::path>::const_iterator iter = files_list.begin(); iter != files_list.end(); iter++)
     {
-      //iter->filename().replace_extension("pcd");
-      std::cerr << (iter->filename()).c_str() << std::endl;
       m_pcd_files.push_back((iter->filename()).c_str());
     }
     return 1;

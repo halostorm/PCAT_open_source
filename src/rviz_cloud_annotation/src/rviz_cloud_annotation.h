@@ -171,6 +171,12 @@
 #define PARAM_NAME_TOGGLE_NONE_TOPIC "rviz_cloud_annotation/toggle_none_topic"
 #define PARAM_DEFAULT_TOGGLE_NONE_TOPIC "/rviz_cloud_annotation/toggle_none"
 
+#define PARAM_IMAGE_LABEL_TOPIC "rviz_cloud_annotation/image_label_topic"
+#define PARAM_DEFAULT_IMAGE_LABEL_TOPIC "/rviz_cloud_annotation/image_label"
+
+#define PARAM_AUTO_PLANE_TOPIC "rviz_cloud_annotation/auto_plane_topic"
+#define PARAM_DEFAULT_AUTO_PLANE_TOPIC "/rviz_cloud_annotation/auto_plane"
+
 // parameters for smart labeling
 // neighborhood graph distance
 #define PARAM_NAME_NEIGH_SEARCH_DISTANCE "neighborhood_search_distance"  // DEPRECATED
@@ -235,6 +241,7 @@
 #define LOG_FILE_DEFAULT "/LogFile/"
 
 #define DATASET_FOLDER "cloud_file_folder"
+#define IMAGE_FOLDER "image_file_folder"
 #define ANNOTATION_FILE_FOLDER "annotation_file_folder"
 #define ANNOTATION_CLOUD_FOLDER "annotation_cloud_folder"
 #define LABEL_NAME_FOLDER "label_names_file_folder"
@@ -242,6 +249,7 @@
 #define BBOX_NAME_FOLDER "bbox_names_file_folder"
 
 #define DATASET_FOLDER_DEFAULT "/cloud_file_folder/"
+#define IMAGE_FOLDER_DEFAULT "/image_file_folder/"
 #define ANNOTATION_FILE_FOLDER_DEFAULT "/annotation_file_folder/"
 #define ANNOTATION_CLOUD_FOLDER_DEFAULT "/annotation_cloud_folder/"
 #define LABEL_NAME_FOLDER_DEFAULT "/label_names_file_folder/"

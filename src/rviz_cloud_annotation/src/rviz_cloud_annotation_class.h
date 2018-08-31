@@ -3,29 +3,32 @@
 
 #include <rviz_cloud_annotation/RectangleSelectionViewport.h>
 #include <rviz_cloud_annotation/UndoRedoState.h>
+#include "point_cloud_plane_curves_extract.h"
 #include "point_neighborhood.h"
+#include "point_neighborhood_search.h"
 #include "rviz_cloud_annotation.h"
 #include "rviz_cloud_annotation_params.h"
 #include "rviz_cloud_annotation_points.h"
 #include "rviz_cloud_annotation_undo.h"
-#include "point_cloud_feature_plane.h"
 
+// system
 #include <sys/stat.h>
 #include <sys/types.h>
 
 // STL
 #include <dirent.h>
-#include <iostream>
-
 #include <std_msgs/Float32MultiArray.h>
 #include <std_msgs/Int32.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <algorithm>
 #include <cmath>
+#include <cstring>
 #include <fstream>
+#include <iostream>
 #include <string>
 // ROS
+#include <eigen_conversions/eigen_msg.h>
 #include <interactive_markers/interactive_marker_server.h>
 #include <ros/ros.h>
 #include <std_msgs/Bool.h>
@@ -36,7 +39,8 @@
 #include <std_msgs/UInt32.h>
 #include <std_msgs/UInt64MultiArray.h>
 #include <termios.h>
-
+// Eigen
+#include <Eigen/Dense>
 // PCL
 #include <pcl/PCLPointCloud2.h>
 #include <pcl/common/colors.h>
@@ -45,19 +49,29 @@
 #include <pcl/kdtree/kdtree_flann.h>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
-
+// OpenCv
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include "cv_bridge/cv_bridge.h"
+#include "image_transport/image_transport.h"
+#include "sensor_msgs/image_encodings.h"
 // boost
+#include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/lexical_cast.hpp>
 
 #define KEYDOWN(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 1 : 0)
 #define KEYUP(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 0 : 1)
+
+#define CLOUD_MARKER_NAME "cloud"
+#define CONTROL_POINT_MARKER_PREFIX "control_points_"
+#define LABEL_POINT_MARKER_PREFIX "label_points_"
+#define BBOX_MARKER_NAME "BBOX"
 
 class RVizCloudAnnotation  //点云标注Main类
 {
 public:
   typedef visualization_msgs::InteractiveMarker InteractiveMarker;
   typedef visualization_msgs::Marker Marker;
-  // typedef visualization_msgs::MarkerArray MarkerArray;
   typedef interactive_markers::InteractiveMarkerServer InteractiveMarkerServer;
   typedef boost::shared_ptr<interactive_markers::InteractiveMarkerServer> InteractiveMarkerServerPtr;
   typedef visualization_msgs::InteractiveMarkerFeedback InteractiveMarkerFeedback;
@@ -112,8 +126,6 @@ public:
       y[1] = y2;
       y[2] = y3;
     }
-
-    // -1: inside 1: outside 0: on border
     int32 Contains(const int32 x, const int32 y) const;
   };
   typedef std::vector<Int32PolyTriangle> Int32PolyTriangleVector;
@@ -131,7 +143,7 @@ public:
 
   void onSave(const std_msgs::String &filename_msg)
   {
-    Save();
+    Save(false);
   }
   void onAutosave(const ros::TimerEvent &event)
   {
@@ -207,7 +219,20 @@ public:
   void onSetAnnotationType(const std_msgs::UInt32 &type)
   {
     ANNOTATION_TYPE = type.data;
+
     ROS_INFO("rviz_cloud_annotation: annotation type: %u", type.data);
+  }
+
+  void onAutoPlane(const std_msgs::Empty &data)
+  {
+    ROS_INFO("rviz_cloud_annotation: auto plane");
+    if (ANNOTATION_TYPE == PLANE)
+    {
+      for (int i = 0; i < _planeRings; i++)
+      {
+        generatePlane(mCurveId[i], true);
+      }
+    }
   }
 
   void onToggleNoneMode(const std_msgs::Empty &msg)
@@ -219,37 +244,34 @@ public:
     else if (m_edit_mode != EDIT_MODE_NONE)
     {
       SetEditMode(EDIT_MODE_NONE);
-      ROS_INFO("rviz_cloud_annotation: OK7");
     }
   }
 
+  //设置数据集路径
   void onSetName(const std_msgs::String &msg)
   {
-    // m_undo_redo.SetNameForLabel(m_current_label, msg.data);
     ROS_INFO("rviz_cloud_annotation: New File Path");
-    // SendName();
-    // SendUndoRedoState();
     m_dataset_files.clear();
     m_annotation_cloud_files.clear();
     m_annotation_file_files.clear();
     m_bbox_files.clear();
     m_label_files.clear();
-
     FILE_ID = 0;
-
-    std::string param_stringA = msg.data + "/";
-    std::string param_stringB = param_stringA + "_pcd/";
-    std::string param_stringC = param_stringA + "_annotation/";
-    std::string param_stringD = param_stringA + "_bbox/";
-    std::string param_stringE = param_stringA + "_label/";
+    std::string param_stringA = msg.data + "/pcd/";
+    std::string param_stringA1 = msg.data + "/image/";
+    std::string param_stringB = msg.data + "/_pcd/";
+    std::string param_stringC = msg.data + "/_annotation/";
+    std::string param_stringD = msg.data + "/_bbox/";
+    std::string param_stringE = msg.data + "/_label/";
     std::string param_stringF;
     mkdir(param_stringA.c_str(), S_IRWXU);
+    mkdir(param_stringA1.c_str(), S_IRWXU);
     mkdir(param_stringB.c_str(), S_IRWXU);
     mkdir(param_stringC.c_str(), S_IRWXU);
     mkdir(param_stringD.c_str(), S_IRWXU);
     mkdir(param_stringE.c_str(), S_IRWXU);
-    LoadDataSet(param_stringA, param_stringB, param_stringC, param_stringD, param_stringE, param_stringF);
-
+    LoadDataSet(param_stringA, param_stringA1, param_stringB, param_stringC, param_stringD, param_stringE,
+                param_stringF);
     InitNewCloud(*nh);
   }
 
@@ -378,6 +400,8 @@ private:
 
   ros::Subscriber m_on_set_annotation_type_sub;
 
+  ros::Subscriber m_on_auto_plane_sub;
+
   ros::Publisher m_object_id_pub;
 
   int32 m_control_yaw_step;
@@ -416,6 +440,7 @@ private:
   // My defined data:
 private:
   std::string m_dataset_folder;
+  std::string m_image_folder;
   std::string m_annotation_cloud_folder;
   std::string m_annotation_file_folder;
   std::string m_bbox_folder;
@@ -425,6 +450,7 @@ private:
   std::string m_log_file;
 
   StringVector m_dataset_files;
+  StringVector m_image_files;
   StringVector m_annotation_cloud_files;
   StringVector m_annotation_file_files;
   StringVector m_bbox_files;
@@ -434,6 +460,7 @@ private:
   int FILE_ID = 0;
 
   ros::Publisher bbox_marker_pub;
+  ros::Publisher bbox_head_marker_pub;
 
   ros::Publisher kerb_marker_pub;
 
@@ -462,15 +489,21 @@ private:
 
   float BBOX_YAW = 0;
 
+  int BBOX_YAW_ANGLE = 0;
+
   float KERB_YAW = 0;
 
   bool if_tilt = false;
+
+  Uint64Vector m_points_to_abandon;
 
   Uint64Vector ids_in_bbox[BBOXNUMBER_LINEPOINTNUMBER];
 
   Uint64Vector ids_in_kerb[LINENUMBER];
 
   Uint64Vector ids_in_lane[LINENUMBER];
+
+  Uint64Vector mCurveId[_planeRings];
 
   Uint64Vector ids_in_plane;
 
@@ -504,7 +537,8 @@ private:
 public:
   void InitNewCloud(ros::NodeHandle &nh);
 
-  void LoadDataSet(std::string A, std::string B, std::string C, std::string D, std::string E, std::string F);
+  void LoadDataSet(std::string A, std::string A1, std::string B, std::string C, std::string D, std::string E,
+                   std::string F);
 
   void AddBbox(float A, float B, float B1, float B2, float B3, float B4, float C1, float C2, bool tilt);
 
@@ -534,7 +568,11 @@ public:
 
   void generateLane(const PointXYZRGBNormalCloud &cloud);
 
-  void generatePlane(const PointXYZRGBNormalCloud &cloud);
+  void generateDefaultPlane(PointXYZRGBNormalCloud &cloud);
+
+  void generatePlane(const Uint64Vector &ids, bool editMode);
+
+  // void generatePlane(const PointXYZRGBNormalCloud &cloud);
 
   void generateKerb(const PointXYZRGBNormalCloud &cloud);
 
@@ -546,22 +584,23 @@ public:
     if (ANNOTATION_TYPE == BBOX)
     {
       BBOX_ID++;
-      ROS_INFO("rviz_cloud_annotation:current BBOX ID: %i", BBOX_ID);
+      // ROS_INFO("rviz_cloud_annotation:current BBOX ID: %i", BBOX_ID);
       SendControlPointMaxWeight();
       SendYawMin();
+      BBOX_YAW = 0;
       SendBiasZero();
       msg.data = BBOX_ID;
     }
     else if (ANNOTATION_TYPE == KERB)
     {
       KERB_ID++;
-      ROS_INFO("rviz_cloud_annotation:current KERB_ID: %i", KERB_ID);
+      // ROS_INFO("rviz_cloud_annotation:current KERB_ID: %i", KERB_ID);
       msg.data = KERB_ID;
     }
     else if (ANNOTATION_TYPE == LANE)
     {
       LANE_ID++;
-      ROS_INFO("rviz_cloud_annotation:current LANE_ID: %i", LANE_ID);
+      // ROS_INFO("rviz_cloud_annotation:current LANE_ID: %i", LANE_ID);
       msg.data = LANE_ID;
     }
     m_object_id_pub.publish(msg);
@@ -573,22 +612,23 @@ public:
     if (ANNOTATION_TYPE == BBOX)
     {
       BBOX_ID++;
-      ROS_INFO("rviz_cloud_annotation:current BBOX ID: %i", BBOX_ID);
+      // ROS_INFO("rviz_cloud_annotation:current BBOX ID: %i", BBOX_ID);
       SendControlPointMaxWeight();
       SendYawMin();
+      BBOX_YAW = 0;
       SendBiasZero();
       msg.data = BBOX_ID;
     }
     else if (ANNOTATION_TYPE == KERB)
     {
       KERB_ID++;
-      ROS_INFO("rviz_cloud_annotation:current KERB_ID: %i", KERB_ID);
+      // ROS_INFO("rviz_cloud_annotation:current KERB_ID: %i", KERB_ID);
       msg.data = KERB_ID;
     }
     else if (ANNOTATION_TYPE == LANE)
     {
       LANE_ID++;
-      ROS_INFO("rviz_cloud_annotation:current LANE_ID: %i", LANE_ID);
+      // ROS_INFO("rviz_cloud_annotation:current LANE_ID: %i", LANE_ID);
       msg.data = LANE_ID;
     }
     m_object_id_pub.publish(msg);
@@ -604,7 +644,7 @@ public:
         BBOX_ID--;
         msg.data = BBOX_ID;
       }
-      ROS_INFO("rviz_cloud_annotation:current BBOX ID: %i", BBOX_ID);
+      // ROS_INFO("rviz_cloud_annotation:current BBOX ID: %i", BBOX_ID);
     }
     else if (ANNOTATION_TYPE == KERB)
     {
@@ -613,7 +653,7 @@ public:
         KERB_ID--;
         msg.data = KERB_ID;
       }
-      ROS_INFO("rviz_cloud_annotation:current KERB_ID: %i", KERB_ID);
+      // ROS_INFO("rviz_cloud_annotation:current KERB_ID: %i", KERB_ID);
     }
     else if (ANNOTATION_TYPE == LANE)
     {
@@ -622,7 +662,7 @@ public:
         LANE_ID--;
         msg.data = LANE_ID;
       }
-      ROS_INFO("rviz_cloud_annotation:current LANE_ID: %i", LANE_ID);
+      // ROS_INFO("rviz_cloud_annotation:current LANE_ID: %i", LANE_ID);
     }
     m_object_id_pub.publish(msg);
   }
@@ -634,7 +674,7 @@ public:
   {
     std::stringstream stream;
     stream << int_temp;
-    string_temp = stream.str();  //此处也可以用 stream>>string_temp
+    string_temp = stream.str();
   }
   float m_sqrt(float x)
   {

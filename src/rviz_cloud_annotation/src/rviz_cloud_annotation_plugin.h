@@ -1,18 +1,61 @@
 #ifndef RVIZ_CLOUD_ANNOTATION_PLUGIN_H
 #define RVIZ_CLOUD_ANNOTATION_PLUGIN_H
 
+#include <rviz_cloud_annotation/UndoRedoState.h>
+#include "rviz_cloud_annotation.h"
+// QT
+#include <QAction>
+#include <QBoxLayout>
+#include <QButtonGroup>
+#include <QGridLayout>
+#include <QKeySequence>
+#include <QLabel>
+#include <QLineEdit>
+#include <QMenu>
+#include <QMenuBar>
+#include <QMessageBox>
+#include <QPushButton>
+#include <QShortcut>
+#include <QSlider>
+#include <QStyle>
+#include <QToolButton>
+
+// STL
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+
+// ROS
+#include <std_msgs/Bool.h>
+#include <std_msgs/Float32.h>
+#include <std_msgs/Int32.h>
+#include <std_msgs/String.h>
+#include <std_msgs/UInt32.h>
+
+// PCL
+#include <pcl/common/colors.h>
+#include <pcl/point_types.h>
 #include <ros/ros.h>
 #include <rviz/panel.h>
-#include <std_msgs/UInt32.h>
-#include <std_msgs/Int32.h>
 #include <std_msgs/Float32MultiArray.h>
+#include <std_msgs/Int32.h>
+#include <std_msgs/UInt32.h>
 
+#include <std_msgs/Empty.h>
 #include <std_msgs/String.h>
 #include <std_msgs/UInt64MultiArray.h>
-#include <std_msgs/Empty.h>
 
 #include <stdint.h>
+#include <QFileDialog>
 #include <vector>
+
+// OpenCv
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include "cv_bridge/cv_bridge.h"
+#include "image_transport/image_transport.h"
+#include "sensor_msgs/image_encodings.h"
 
 #include <rviz_cloud_annotation/UndoRedoState.h>
 
@@ -32,7 +75,6 @@ class RGB;
 
 namespace rviz_cloud_annotation
 {
-
 class QRVizCloudAnnotation : public rviz::Panel
 {
   Q_OBJECT;
@@ -62,6 +104,8 @@ private Q_SLOTS:
   void onMinusLabel();
   void onPageUp();
   void onPageDown();
+
+  void onAutoPlane();
 
   void onSave();
   void onRestore();
@@ -148,6 +192,28 @@ private:
 
   void onPreObject();
 
+  void showImageLabel(std::string imagePath);
+
+  void FirstUsedTime(time_t &begin)
+  {
+    const char *timefile_name = "time.txt";
+    std::ifstream infile;
+    std::ofstream outfile;
+    infile.open(timefile_name);
+    outfile.open(timefile_name, std::ios::app);
+    std::string timeS;
+    if (infile)
+    {
+      std::getline(infile, timeS);
+      begin = atoi(timeS.c_str());
+    }
+    else
+    {
+      outfile << begin << std::endl;
+      outfile.close();
+    }
+  }
+
   static void ColorToHex(const pcl::RGB &color, char hex[7]);
 
   uint64 m_current_edit_mode;
@@ -210,13 +276,18 @@ private:
   ros::Publisher m_annotation_type_pub;
   ros::Subscriber m_object_id_sub;
 
+  ros::Publisher m_auto_plane_pub;
+
+  image_transport::Publisher m_image_label_pub;
+
   QPushButton *m_edit_none_button;
   QPushButton *m_edit_control_point_button;
   QPushButton *m_edit_eraser_button;
   QPushButton *m_edit_color_picker_button;
   QButtonGroup *m_toolbar_group;
 
-  QPushButton *m_line_button;
+  QPushButton *m_kerb_button;
+  QPushButton *m_lane_button;
   QPushButton *m_plane_button;
   QPushButton *m_bbox_button;
   QButtonGroup *m_annotation_type_group;
@@ -238,6 +309,8 @@ private:
   QAction *m_max_weight_action;
   QMenu *m_weight_menu;
 
+  QAction *m_auto_plane_action;
+
   QAction *m_X1_bias_action;
   QAction *m_X2_bias_action;
   QAction *m_X3_bias_action;
@@ -253,9 +326,9 @@ private:
   QMenu *m_bias_menu;
 
   QAction *m_prev_yaw_action;
-  QAction  *m_next_yaw_action;
-  QAction  *m_max_yaw_action;
-  QAction  *m_min_yaw_action;
+  QAction *m_next_yaw_action;
+  QAction *m_max_yaw_action;
+  QAction *m_min_yaw_action;
   QMenu *m_yaw_menu;
 
   QAction *m_undo_action;
@@ -294,9 +367,8 @@ private:
   const uint LANE = 3u;
 
   uint ANNOTATION_TYPE = BBOX;
-  
 };
 
-} // namespace rviz_cloud_annotation
+}  // namespace rviz_cloud_annotation
 
-#endif // RVIZ_CLOUD_ANNOTATION_PLUGIN_H
+#endif  // RVIZ_CLOUD_ANNOTATION_PLUGIN_H

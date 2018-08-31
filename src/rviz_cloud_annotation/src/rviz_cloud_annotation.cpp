@@ -2,7 +2,7 @@
 版权说明
 ----------------------------------------------------
 1. **软件版权**
-本标注工具的版权归Nullmax(纽迈科技公司)所有
+本标注工具的版权归Duwenwen|Nullmax 所有
  2. **其他版权**
 本标注工具在 RIMLab 开源标注工具 rviz_cloud_annotation 上改进完成：
 `https://github.com/RMonica/rviz_cloud_annotation`
@@ -43,8 +43,7 @@ Original Copyright :
  */
 
 #include "rviz_cloud_annotation_class.h"
-    int
-    main(int argc, char** argv)
+int main(int argc, char** argv)
 {
   ros::init(argc, argv, "rviz_cloud_annotation");
   ros::NodeHandle nh("~");
