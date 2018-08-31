@@ -47,7 +47,7 @@ roscore
 rviz
 ```
 成功显示rviz界面如下：
-![图片](https://nullmax.coding.net/api/project/34882/files/177359/imagePreview)
+![图片](https://github.com/halostorm/PCAT/blob/master/image/s1.png)
 
 ### 2. 安装PCAT标注工具
 ```
@@ -67,7 +67,7 @@ Copy 待标注的点云.pcd格式文件到 lidar_annotation/pcd/ 文件夹下
 打开 Teminnal, 运行: sh run.sh
 ```
 显示标注界面如下：
-![图片](https://nullmax.coding.net/api/project/34882/files/184219/imagePreview)
+![图片](https://github.com/halostorm/PCAT/blob/master/image/s2.png)
 
 -------------------------------
 ## **III. 标注手册正篇** 
@@ -93,7 +93,7 @@ Copy 待标注的点云.pcd格式文件到 lidar_annotation/pcd/ 文件夹下
 5.标记障碍物时，需要设置方位角和遮挡系数，请以实际为准标注，0--不遮挡，1--完全遮挡
 尽量使用简洁的方式完成标注，熟练使用快捷键可以有效提高标注速度。
 ```
-![图片](https://nullmax.coding.net/api/project/34882/files/184221/imagePreview)
+![图片](https://github.com/halostorm/PCAT/blob/master/image/s3.png)
 特别说明
 1.点云被重复标记为 障碍物，路沿，车道线，地面时，标签优先级为 （障碍物 > 路沿/车道线 > 地面）
 
@@ -112,7 +112,7 @@ Copy 待标注的点云.pcd格式文件到 lidar_annotation/pcd/ 文件夹下
 每个障碍物，需要标注人员自己判断大致的朝向，并进行方位调节（R、F键）。
 受到遮挡的障碍物请设置`遮挡系数`，默认为 0，即不遮挡，大多数障碍物不存在遮挡。
 ```
-![图片](https://nullmax.coding.net/api/project/34882/files/187608/imagePreview)
+![图片](https://github.com/halostorm/PCAT/blob/master/image/s4.png)
 
 ```
 (2)  路沿
