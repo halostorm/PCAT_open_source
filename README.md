@@ -2,11 +2,11 @@ PCAT点云标注工具-使用手册
 ---------------------
 
 - This is a trial version of PCAT for 3 days, you can contact author to buy the official version if you need PCAT tools.
-     Author:  WenwenDu
 
-     TEL:     18355180339
+     `Author:  WenwenDu`
+     `TEL:     18355180339`
+     `E-mail:  1455112695@qq.com`
 
-     E-mail:  1455112695@qq.com
 - Video tutorial: `https://v.youku.com/v_show/id_XMzgwNTk3MzY0OA==.html?spm=a2hzp.8253869.0.0`
 
 ## **I. 配置使用环境及安装**
