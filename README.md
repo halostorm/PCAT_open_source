@@ -1,5 +1,11 @@
-Nullmax点云标注工具-使用手册
+PCAT点云标注工具-使用手册
 ---------------------
+
+- 1. This is a trial version of PCAT for 3 days, you can contact author to buy the official version if you need PCAT tools.
+     Author : WenwenDu
+     TEL:     18355180339
+     E-mail:  1455112695@qq.com
+- 2. Video tutorial: `https://v.youku.com/v_show/id_XMzgwNTk3MzY0OA==.html?spm=a2hzp.8253869.0.0`
 
 ## **I. 配置使用环境及安装**
 
@@ -23,11 +29,6 @@ sudo apt-cache search ros-kinetic
 初始化ROS：
 sudo rosdep init
 rosdep update
-```
-```
-如果 初始化Ros时，`rosdep update` 执行出现错误，请做如下步骤：（不报错则跳过）
-进入标注工具 Nullmax-Point-Cloud-Tools_2.3.0 下 tools文件夹，运行 ros_debug.sh 脚本:
-sh ros_debug.sh
 ```
 
 ```
