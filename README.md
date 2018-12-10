@@ -132,6 +132,7 @@ Copy 待标注的点云.pcd格式文件到 lidar_annotation/pcd/ 文件夹下
 
 ### 3.标签说明
 `标注生成的文件在/home/lidar_annotation下，bbox标签解释如下图`
+
 ![图片](https://github.com/halostorm/PCAT/blob/master/image/s5.png)
 ------------------------
 
