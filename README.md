@@ -129,6 +129,10 @@ Copy 待标注的点云.pcd格式文件到 lidar_annotation/pcd/ 文件夹下
  *在2.4.0版本之后，标注工具增加了地面辅助标记功能：用户每次选择`地面(F2)`按钮时，系统会自动生成95%的地面，用户在此基础上进行细节修改，
  得到最终的地面标注。
 ```
+
+### 3.标签说明
+`标注生成的文件在/home/lidar_annotation下，bbox标签解释如下图`
+![图片](https://github.com/halostorm/PCAT/blob/master/image/s5.png)
 ------------------------
 
 **IV、注意事项**
