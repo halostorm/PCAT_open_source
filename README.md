@@ -2,12 +2,15 @@ PCAT点云标注工具-使用手册
 ---------------------
 
 - This is a trial version of PCAT for several days, you can contact author to get the official version or full source code if you need PCAT tools.
-- VISTA BUSINESS LICENCE $499
 
      `Author:  WenwenDu`
      `TEL:     18355180339`
      `E-mail:  1455112695@qq.com`
-
+     
+- SELL PRICE
+     `VISTA BUSINESS LICENCE for  $499`
+     `EDUCATION ORGANIZATION LICENCE $199`
+     
 - Video tutorial: `https://v.youku.com/v_show/id_XMzgwNTk3MzY0OA==.html?spm=a2hzp.8253869.0.0`
 
 ## **I. 配置使用环境及安装**
