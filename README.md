@@ -8,7 +8,9 @@ PCAT点云标注工具-使用手册
      `E-mail:  1455112695@qq.com`
      
 - SELL PRICE
-     `VISTA BUSINESS LICENCE for  $499`
+
+     `VISTA BUSINESS LICENCE  $499`
+     
      `EDUCATION ORGANIZATION LICENCE $199`
      
 - Video tutorial: `https://v.youku.com/v_show/id_XMzgwNTk3MzY0OA==.html?spm=a2hzp.8253869.0.0`
