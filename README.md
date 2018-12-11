@@ -1,7 +1,8 @@
 PCAT点云标注工具-使用手册
 ---------------------
 
-- This is a trial version of PCAT for 3 days, you can contact author to get the official version or full source code if you need PCAT tools.
+- This is a trial version of PCAT for several days, you can contact author to get the official version or full source code if you need PCAT tools.
+- VISTA BUSINESS LICENCE $499
 
      `Author:  WenwenDu`
      `TEL:     18355180339`
