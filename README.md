@@ -15,6 +15,7 @@ PCAT点云标注工具-使用手册
      
 - Video tutorial(视频教程): 
 `https://v.youku.com/v_show/id_XMzc0MzM5NTkzNg==.html?spm=a2h0j.11185381.listitem_page1.5!2~A`
+
 `https://v.youku.com/v_show/id_XMzgwNTk3MzY0OA==.html?spm=a2hzp.8253869.0.0`
 
 ## **I. 配置使用环境及安装**
