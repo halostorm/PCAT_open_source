@@ -1,7 +1,7 @@
 PCAT点云标注工具-使用手册
 ---------------------
 
-- Info:
+- This is the open source version:
 
      `Author:  WenwenDu`
      `TEL:     18355180339`
