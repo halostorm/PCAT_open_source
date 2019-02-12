@@ -67,7 +67,7 @@
 #define LABEL_POINT_MARKER_PREFIX "label_points_"
 #define BBOX_MARKER_NAME "BBOX"
 
-class RVizCloudAnnotation  //点云标注Main类
+class RVizCloudAnnotation //点云标注Main类
 {
 public:
   typedef visualization_msgs::InteractiveMarker InteractiveMarker;
@@ -140,6 +140,7 @@ public:
   RVizCloudAnnotation(ros::NodeHandle &nh);
 
   void LoadCloud(const std::string &filename, const std::string &normal_source, PointXYZRGBNormalCloud &cloud);
+  void LoadCloud1(std::string &filename, const std::string &normal_source, PointXYZRGBNormalCloud &cloud);
 
   void onSave(const std_msgs::String &filename_msg)
   {
@@ -485,7 +486,7 @@ private:
 
   int PLANE_ID = 0;
 
-  float m_box_bias[BBOXNUMBER_LINEPOINTNUMBER][6] = { { 0 } };
+  float m_box_bias[BBOXNUMBER_LINEPOINTNUMBER][6] = {{0}};
 
   float BBOX_YAW = 0;
 
@@ -511,19 +512,19 @@ private:
 
   Uint64Vector ids_in_plane_flag;
 
-  float BBOX_SET[BBOXNUMBER_LINEPOINTNUMBER][11] = { { 0 } };
+  float BBOX_SET[BBOXNUMBER_LINEPOINTNUMBER][11] = {{0}};
 
-  float BBOX_LABEL_SET[BBOXNUMBER_LINEPOINTNUMBER][10] = { { 0 } };
+  float BBOX_LABEL_SET[BBOXNUMBER_LINEPOINTNUMBER][10] = {{0}};
 
-  float KERB_SET[LINENUMBER][BBOXNUMBER_LINEPOINTNUMBER][3] = { { { 0 } } };
+  float KERB_SET[LINENUMBER][BBOXNUMBER_LINEPOINTNUMBER][3] = {{{0}}};
 
-  int KERB_SIZE[LINENUMBER] = { 0 };
+  int KERB_SIZE[LINENUMBER] = {0};
 
-  float LANE_SET[LINENUMBER][BBOXNUMBER_LINEPOINTNUMBER][3] = { { { 0 } } };
+  float LANE_SET[LINENUMBER][BBOXNUMBER_LINEPOINTNUMBER][3] = {{{0}}};
 
-  int LANE_SIZE[LINENUMBER] = { 0 };
+  int LANE_SIZE[LINENUMBER] = {0};
 
-  float m_bbox_occluded[BBOXNUMBER_LINEPOINTNUMBER] = { 0 };
+  float m_bbox_occluded[BBOXNUMBER_LINEPOINTNUMBER] = {0};
 
   Int64Vector m_label;
 
@@ -687,4 +688,4 @@ public:
   }
 };
 
-#endif  // RVIZ_CLOUD_ANNOTATION_CLASS_H
+#endif // RVIZ_CLOUD_ANNOTATION_CLASS_H

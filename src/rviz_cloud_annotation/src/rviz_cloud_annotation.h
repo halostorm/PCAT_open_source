@@ -245,6 +245,7 @@
 #define ANNOTATION_FILE_FOLDER "annotation_file_folder"
 #define ANNOTATION_CLOUD_FOLDER "annotation_cloud_folder"
 #define LABEL_NAME_FOLDER "label_names_file_folder"
+#define PATH "my_path"
 #define LINE_NAME_FOLDER "line_names_file_folder"
 #define BBOX_NAME_FOLDER "bbox_names_file_folder"
 
@@ -253,6 +254,7 @@
 #define ANNOTATION_FILE_FOLDER_DEFAULT "/annotation_file_folder/"
 #define ANNOTATION_CLOUD_FOLDER_DEFAULT "/annotation_cloud_folder/"
 #define LABEL_NAME_FOLDER_DEFAULT "/label_names_file_folder/"
+#define PATH_DEFAULT "/my_path/"
 #define LINE_NAME_FOLDER_DEFAULT "/line_names_file_folder/"
 #define BBOX_NAME_FOLDER_DEFAULT "/bbox_names_file_folder/"
 

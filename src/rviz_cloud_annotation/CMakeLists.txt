@@ -1,7 +1,8 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.11)
 project(rviz_cloud_annotation)
 
 find_package(catkin REQUIRED COMPONENTS
+  cv_bridge
   interactive_markers
   pcl_conversions
   roscpp
@@ -13,7 +14,6 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   rviz
 )
-
 find_package(OpenCV)
 find_package(Eigen3 REQUIRED)
 find_package(Boost REQUIRED)
@@ -69,18 +69,60 @@ add_executable(rviz_cloud_annotation_node
   ${MAYBE_PCL_COMMON_COLORS}
   )
 
-add_dependencies(rviz_cloud_annotation_node 
-  ${${PROJECT_NAME}_EXPORTED_TARGETS} 
-  ${catkin_EXPORTED_TARGETS}
-)
+add_dependencies(rviz_cloud_annotation_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 target_link_libraries(
   rviz_cloud_annotation_node
-  librviz_cloud_annotation_com.so  
-  librviz_cloud_annotation_plugin.so
+  rviz_cloud_annotation_com
+  ${PCL_LIBRARIES}
+  ${Boost_LIBRARIES}
+  ${Eigen3_LIBRARIES}
+  ${catkin_LIBRARIES}
+  )
+
+
+set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+
+add_library(rviz_cloud_annotation_plugin
+  src/rviz_cloud_annotation_plugin.cpp
+  src/rviz_select_tool.cpp
+  ${MAYBE_PCL_COMMON_COLORS}
+)
+
+add_dependencies(rviz_cloud_annotation_plugin ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+target_link_libraries(rviz_cloud_annotation_plugin
   ${PCL_LIBRARIES}
   ${Boost_LIBRARIES}
   ${Eigen3_LIBRARIES}
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
+  Qt5::Widgets
 )
+
+
+add_library(rviz_cloud_annotation_com
+  src/rviz_cloud_annotation_points.cpp
+  src/rviz_cloud_annotation_points_io.cpp
+  src/rviz_cloud_annotation_point_plane.cpp
+  src/rviz_cloud_annotation_class.cpp
+  src/rviz_cloud_annotation_undo.cpp
+  src/point_neighborhood.cpp
+  src/point_neighborhood_search.cpp
+  src/point_cloud_plane_curves_extract.cpp
+  src/point_cloud_plane_params.cpp
+  ${MAYBE_PCL_COMMON_COLORS}
+)
+
+
+add_dependencies(rviz_cloud_annotation_com ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+target_link_libraries(rviz_cloud_annotation_com
+  ${PCL_LIBRARIES}
+  ${Boost_LIBRARIES}
+  ${Eigen3_LIBRARIES}
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBRARIES}
+  Qt5::Widgets
+)
+
