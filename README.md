@@ -142,7 +142,7 @@ Copy 待标注的点云.pcd格式文件到 lidar_annotation/pcd/ 文件夹下
 **V、版权说明**
 -----------------------
 1. **软件版权** 
-本标注工具的版权归WenwenDu|Nullmax所有
+本标注工具的版权归WenwenDu所有
  2. **其他版权** 
 本标注工具在 RIMLab 开源标注工具 rviz_cloud_annotation 上改进完成：
 `https://github.com/RMonica/rviz_cloud_annotation`
