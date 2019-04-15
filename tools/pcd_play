@@ -1,0 +1,1 @@
+rosrun pcl_ros pcd_to_pointcloud a.pcd 0.1 _frame_id:=/base_link

@@ -66,6 +66,8 @@ rviz
 1. **导入待标注点云pcd文件**
 ```
 Copy 待标注的点云.pcd格式文件到 lidar_annotation/pcd/ 文件夹下
+
+注意：标注工具默认支持激光雷达pcd格式点云，Field为[x,y,z,intensity]
 ```
 
 2. **开始标注**

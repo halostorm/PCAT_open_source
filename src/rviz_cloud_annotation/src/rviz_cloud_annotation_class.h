@@ -84,12 +84,15 @@ public:
   typedef pcl::Normal PointNormal;
   typedef pcl::PointCloud<PointNormal> PointNormalCloud;
 
+  typedef pcl::PointXYZI PointXYZ;
+  typedef pcl::PointCloud<PointXYZ> PointXYZCloud;
+
   typedef pcl::PointXYZI PointXYZI;
   typedef pcl::PointCloud<PointXYZI> PointXYZICloud;
 
   typedef pcl::PointXYZRGB PointXYZRGB;
-
   typedef pcl::PointCloud<PointXYZRGB> PointXYZRGBCloud;
+  
   typedef pcl::PointXYZRGBL PointXYZRGBL;
   typedef pcl::PointCloud<PointXYZRGBL> PointXYZRGBLCloud;
 

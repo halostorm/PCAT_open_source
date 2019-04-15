@@ -510,29 +510,29 @@ void RVizCloudAnnotation::LoadCloud(const std::string &filename, const std::stri
   cloud.clear();
 
   pcl::PCLPointCloud2 cloud2;
-  PointXYZICloud cloud_in;
-
   if (pcl::io::loadPCDFile(filename, cloud2))
   {
     throw std::string(std::string("could not load cloud: ") + filename);
   }
-  PointXYZRGBCloud xyz_rgb_cloud;
-
+  PointXYZICloud cloud_in;
   pcl::fromPCLPointCloud2(cloud2, cloud_in);
   ROS_INFO("rviz_cloud_annotation: cloud_in size: %ld", cloud_in.size());
+
+  PointXYZRGBCloud xyz_rgb_cloud;
   for (int64 i = 0; i < cloud_in.size(); i++)
   {
     PointXYZRGB point;
     point.x = cloud_in[i].x;
     point.y = cloud_in[i].y;
     point.z = cloud_in[i].z;
-    float radius = m_sqrt(point.x * point.x + point.y * point.y);
-    if (radius < DISTANCE_LIMMIT && point.z < HEIGHT_LIMMIT)
+    //float radius = m_sqrt(point.x * point.x + point.y * point.y);
+    if (true)//radius < DISTANCE_LIMMIT && point.z < HEIGHT_LIMMIT)
     {
       colorize_point_cloud(cloud_in[i].intensity, &point);
       xyz_rgb_cloud.push_back(point);
     }
   }
+
   pcl::copyPointCloud(xyz_rgb_cloud, cloud);
 
   for (uint64 i = 0; i < cloud.size(); i++)
