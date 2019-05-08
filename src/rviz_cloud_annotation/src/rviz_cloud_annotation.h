@@ -4,6 +4,9 @@
 #define PARAM_NAME_UPDATE_TOPIC "update_topic"
 #define PARAM_DEFAULT_UPDATE_TOPIC "/rviz_cloud_annotation/update_topic"
 
+#define PARAM_NAME_PCD_TYPE "pcd_type"
+#define PARAM_DEFAULT_PCD_TYPE "/rviz_cloud_annotation/pcd_type"
+
 #define PARAM_NAME_NORMAL_SOURCE "normal_source"
 #define PARAM_VALUE_NORMAL_SOURCE_CLOUD "cloud"               // from PARAM_NAME_CLOUD_FILENAME itself
 #define PARAM_VALUE_NORMAL_SOURCE_OTHER_CLOUD "other_cloud:"  // example: "other_cloud:normal_cloud.pcd"

@@ -1,6 +1,7 @@
 <launch>
 
   <node pkg="rviz_cloud_annotation" type="rviz_cloud_annotation_node" name="rviz_cloud_annotation_node" output="screen">
+    <param name="pcd_type" type="string" value="XYZI" /> <!-- supported pcd format: XYZ, XYZI, XYZRGB -->
     <param name="update_topic" type="string" value="/point_cloud" />
     <param name="LogFile" type="string" value="$(env HOME)/lidar_annotation/annotation.log" />
     <param name="cloud_file_folder" type="string" value="$(env HOME)/lidar_annotation/pcd/" />
