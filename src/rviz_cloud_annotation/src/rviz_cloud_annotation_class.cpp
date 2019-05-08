@@ -273,7 +273,7 @@ void RVizCloudAnnotation::InitNewCloud(ros::NodeHandle &nh)
       }
 
       m_nh.param<double>(PARAM_NAME_COLOR_IMPORTANCE, param_double, PARAM_DEFAULT_COLOR_IMPORTANCE);
-      conf.color_importance = param_double;
+        conf.color_importance = param_double;
 
       m_nh.param<double>(PARAM_NAME_NORMAL_IMPORTANCE, param_double, PARAM_DEFAULT_NORMAL_IMPORTANCE);
       conf.normal_importance = param_double;
@@ -285,7 +285,7 @@ void RVizCloudAnnotation::InitNewCloud(ros::NodeHandle &nh)
       conf.max_distance = param_double;
 
       ROS_INFO("rviz_cloud_annotation: building point neighborhood...");
-      // m_point_neighborhood = PointNeighborhood::ConstPtr(new PointNeighborhood(m_cloud, conf));
+      m_point_neighborhood = PointNeighborhood::ConstPtr(new PointNeighborhood(m_cloud, conf));
       ROS_INFO("rviz_cloud_annotation: done.");
     }
   }
