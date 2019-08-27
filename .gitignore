@@ -1,0 +1,6 @@
+.vscode/
+.ros/
+.catkin*
+.idea/
+devel/
+build/

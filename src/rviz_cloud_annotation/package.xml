@@ -1,11 +1,11 @@
 <?xml version="2.0"?>
 <package>
   <name>rviz_cloud_annotation</name>
-  <version>2.3.0</version>
+  <version>3.1.0</version>
   <description>The rviz_cloud_annotation package</description>
 
-  <maintainer email="wwdu@nullmax.ai">wwdu</maintainer>
-  <license>Nullmax</license>
+  <maintainer email="2524416894@qq.com">wenwendu</maintainer>
+  <license>wenwendu</license>
 
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>interactive_markers</build_depend>
