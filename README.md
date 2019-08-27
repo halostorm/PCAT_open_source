@@ -8,9 +8,9 @@ PCAT点云标注工具-使用手册
      `E-mail:  1455112695@qq.com`
 
 - Video tutorial: 
-1. `https://v.youku.com/v_show/id_XMzc0MzM5NTkzNg==.html?spm=zp.8244740.0.0`
+1. `https://v.youku.com/`
 
-2. `https://v.youku.com/v_show/id_XMzgwNTk3MzY0OA==.html?spm=zp.8244740.0.0`
+2. `https://v.youku.com/`
 
 ## **I. 配置使用环境及安装**
 
