@@ -139,7 +139,7 @@ Copy 待标注的点云.pcd格式文件到 lidar_annotation/pcd/ 文件夹下
 **IV、注意事项**
 -----------------------
     1. 标注工具使用过程中如果遇见问题，或者代码部分有疑问，编辑需要，联系 @杜文文(18355180339 / 1455112695@qq.com)
-    2. 视频教程:https://v.youku.com/v_show/id_XMzgwNTk3MzY0OA==.html?spm=a2hzp.8253869.0.0
+    2. 视频教程:https://v.youku.com/
 
 -----------------------
 
