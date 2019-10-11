@@ -504,7 +504,7 @@ void RVizCloudAnnotation::InitNewCloud(ros::NodeHandle &nh)
 }
 
 //加载一帧点云
-/* 
+
 void RVizCloudAnnotation::LoadCloud(const std::string &filename, const std::string &normal_source,
                                     PointXYZRGBNormalCloud &cloud)
 {
@@ -559,10 +559,10 @@ void RVizCloudAnnotation::LoadCloud(const std::string &filename, const std::stri
   generateDefaultPlane(cloud);
   //
 }
-*/
+
 
 //加载一帧点云
-
+/*
 void RVizCloudAnnotation::LoadCloud(const std::string &filename, const std::string &normal_source,
                                     PointXYZRGBNormalCloud &cloud)
 {
@@ -618,7 +618,7 @@ void RVizCloudAnnotation::LoadCloud(const std::string &filename, const std::stri
   }
   pcl::copyPointCloud(xyz_rgb_cloud, cloud); //Transform to XYZRGBNormal finally
 }
-
+*/
 //对点云进行 强度 --> RGB转换
 void RVizCloudAnnotation::colorize_point_cloud(double intensity, PointXYZRGB *sample)
 {
