@@ -8,9 +8,9 @@ PCAT点云标注工具-使用手册
      `E-mail:  1455112695@qq.com`
 
 - Video tutorial: 
-1. `https://v.youku.com/v_show/id_XMzc0MzM5NTkzNg==.html?spm=a2hzp.8244740.0.0`
+1. `https://v.youku.com/`
 
-2. `https://v.youku.com/v_show/id_XMzgwNTk3MzY0OA==.html?spm=a2hzp.8244740.0.0`
+2. `https://v.youku.com/`
 
 ## **I. 配置使用环境及安装**
 
@@ -134,12 +134,16 @@ Copy 待标注的点云.pcd格式文件到 lidar_annotation/pcd/ 文件夹下
  *在2.4.0版本之后，标注工具增加了地面辅助标记功能：用户每次选择`地面(F2)`按钮时，系统会自动生成95%的地面，用户在此基础上进行细节修改，
  得到最终的地面标注。
 ```
+
+### 3.标注标签
+![图片](https://github.com/halostorm/PCAT/blob/master/image/s5.png)
+
 ------------------------
 
 **IV、注意事项**
 -----------------------
     1. 标注工具使用过程中如果遇见问题，或者代码部分有疑问，编辑需要，联系 @杜文文(18355180339 / 1455112695@qq.com)
-    2. 视频教程:https://v.youku.com/v_show/id_XMzgwNTk3MzY0OA==.html?spm=a2hzp.8253869.0.0
+    2. 视频教程:https://v.youku.com/
 
 -----------------------
 
