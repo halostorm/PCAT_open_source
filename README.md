@@ -15,7 +15,7 @@ PCAT点云标注工具-使用手册
 ## **I. 配置使用环境及安装**
 
 - `配置要求：ubuntu16.04 + ROS Kinetic full`
-- `注意：请务必保证系统使用 python2.7, 不可使用 Anaconda2`
+- `注意：请务必保证系统使用原生python2.7，在使用Anaconda2的情况下，请在~/.bashrc环境变量中临时关闭Anaconda2,避免冲突。（如果你长期使用ROS，强烈建议在虚拟环境下使用anaconda，避免冲突。）`
 
 ### 1. 安装ROS-Kinetic
 参考[ROS WiKi-安装说明](http://http://wiki.ros.org/kinetic/Installation/Ubuntu), 安装步骤如下：

@@ -273,7 +273,7 @@ void RVizCloudAnnotation::InitNewCloud(ros::NodeHandle &nh)
       }
 
       m_nh.param<double>(PARAM_NAME_COLOR_IMPORTANCE, param_double, PARAM_DEFAULT_COLOR_IMPORTANCE);
-        conf.color_importance = param_double;
+      conf.color_importance = param_double;
 
       m_nh.param<double>(PARAM_NAME_NORMAL_IMPORTANCE, param_double, PARAM_DEFAULT_NORMAL_IMPORTANCE);
       conf.normal_importance = param_double;
@@ -504,6 +504,7 @@ void RVizCloudAnnotation::InitNewCloud(ros::NodeHandle &nh)
 }
 
 //加载一帧点云
+/* 
 void RVizCloudAnnotation::LoadCloud(const std::string &filename, const std::string &normal_source,
                                     PointXYZRGBNormalCloud &cloud)
 {
@@ -558,39 +559,65 @@ void RVizCloudAnnotation::LoadCloud(const std::string &filename, const std::stri
   generateDefaultPlane(cloud);
   //
 }
+*/
 
 //加载一帧点云
-/*
-void RVizCloudAnnotation::LoadCloud1(std::string &filename, const std::string &normal_source,
-                                     PointXYZRGBNormalCloud &cloud)
+
+void RVizCloudAnnotation::LoadCloud(const std::string &filename, const std::string &normal_source,
+                                    PointXYZRGBNormalCloud &cloud)
 {
   cloud.clear();
-  PointXYZRGBCloud xyz_rgb_cloud;
-  std::ifstream ifile;
-  ifile.open(filename.c_str());
-  std::string s;
-  const char *delim = "\t";
-  char *p;
-  while (std::getline(ifile, s))
-  {
-    if (1)
-    {
-      char c[50];
-      strcpy(c, s.c_str());
-      PointXYZRGB point;
-      p = strtok(c, delim);
-      point.x = atof(p);
-      p = strtok(NULL, delim);
-      point.y = atof(p);
-      p = strtok(NULL, delim);
-      point.z = atof(p);
+  // PointXYZRGBCloud xyz_rgb_cloud;
+  // std::ifstream ifile;
+  // ifile.open(filename.c_str());
+  // std::string s;
+  // const char *delim = "\t";
+  // char *p;
+  // while (std::getline(ifile, s))
+  // {
+  //   if (1)
+  //   {
+  //     char c[50];
+  //     strcpy(c, s.c_str());
+  //     PointXYZRGB point;
+  //     p = strtok(c, delim);
+  //     point.x = atof(p);
+  //     p = strtok(NULL, delim);
+  //     point.y = atof(p);
+  //     p = strtok(NULL, delim);
+  //     point.z = atof(p);
 
+  //     xyz_rgb_cloud.push_back(point);
+  //   }
+  // }
+  // std::cout << xyz_rgb_cloud.size() << "\n";
+  // pcl::copyPointCloud(xyz_rgb_cloud, cloud);
+
+  pcl::PCLPointCloud2 cloud2;
+  if (pcl::io::loadPCDFile(filename, cloud2)) //read pcd file
+  {
+    throw std::string(std::string("could not load cloud: ") + filename);
+  }
+
+  PointXYZICloud cloud_in;
+  pcl::fromPCLPointCloud2(cloud2, cloud_in); //input pointCloud as XYZI
+  // transform XYZI to XYZRGB
+  PointXYZRGBCloud xyz_rgb_cloud;
+  for (int64 i = 0; i < cloud_in.size(); i++)
+  {
+    PointXYZRGB point;
+    point.x = cloud_in[i].x;
+    point.y = cloud_in[i].y;
+    point.z = cloud_in[i].z;
+    //float radius = m_sqrt(point.x * point.x + point.y * point.y);
+    if (true) //radius < DISTANCE_LIMMIT && point.z < HEIGHT_LIMMIT)
+    {
+      colorize_point_cloud(cloud_in[i].intensity, &point); //Transform intensity to RGB
       xyz_rgb_cloud.push_back(point);
     }
   }
-  std::cout << xyz_rgb_cloud.size() << "\n";
-  pcl::copyPointCloud(xyz_rgb_cloud, cloud);
-}*/
+  pcl::copyPointCloud(xyz_rgb_cloud, cloud); //Transform to XYZRGBNormal finally
+}
 
 //对点云进行 强度 --> RGB转换
 void RVizCloudAnnotation::colorize_point_cloud(double intensity, PointXYZRGB *sample)

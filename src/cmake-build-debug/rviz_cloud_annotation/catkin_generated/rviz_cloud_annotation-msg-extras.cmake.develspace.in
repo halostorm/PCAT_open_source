@@ -1,0 +1,2 @@
+set(rviz_cloud_annotation_MESSAGE_FILES "/home/duwenwen/Workspace/PCAT_open_source/src/rviz_cloud_annotation/msg/UndoRedoState.msg;/home/duwenwen/Workspace/PCAT_open_source/src/rviz_cloud_annotation/msg/RectangleSelectionViewport.msg")
+set(rviz_cloud_annotation_SERVICE_FILES "")
