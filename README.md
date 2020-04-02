@@ -1,6 +1,8 @@
 PCAT点云标注工具-使用手册
 ---------------------
 
+- Demo项目，请自行魔改
+
 - This is the open source version:
 
      `Author:  WenwenDu`
@@ -8,9 +10,9 @@ PCAT点云标注工具-使用手册
      `E-mail:  1455112695@qq.com`
 
 - Video tutorial: 
-1. `https://v.youku.com/`
+1. `https://v.youku.com/v_show/id_XNDYxNjY4MDExMg==.html?spm=a2h0k.11417342.soresults.dtitle`
 
-2. `https://v.youku.com/`
+2. `https://v.youku.com/v_show/id_XNDYxNjY4MDI5Mg==.html?spm=a2hzp.8244740.0.0`
 
 ## **I. 配置使用环境及安装**
 
