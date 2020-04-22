@@ -637,12 +637,12 @@ void RVizCloudAnnotation::LoadCloud(const std::string &filename,
 
   ROS_INFO("rviz_cloud_annotation: cloud size: %ld", cloud.size());
 
+  for (uint64 i = 0; i < cloud.size(); i++) {
+    ids_in_plane_flag.push_back(0);
+  }
+
   // code for plane annotation, should be removed if you don't need plane
   // annotation for decreasing running time.
-  // for (uint64 i = 0; i < cloud.size(); i++)
-  // {
-  //   ids_in_plane_flag.push_back(0);
-  // }
   // generateDefaultPlane(cloud);
   //
 }
