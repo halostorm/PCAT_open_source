@@ -70,6 +70,15 @@ rviz
 Copy 待标注的点云.pcd格式文件到 lidar_annotation/pcd/ 文件夹下
 
 注意：标注工具默认支持激光雷达pcd格式点云，Field为[x,y,z,intensity],如果使用XYZRGB等其他pcd format，请在src/rviz_cloud_annotation/launch/annotation.launch中更改pcd_type参数的value.
+
+常见issue
+
+[1] 如何支持其他类型pcd或其他3Dpoints？ 修改以下code...
+// src/rviz_cloud_annotation/src/rviz_cloud_annotation_class.cpp
+void RVizCloudAnnotation::LoadCloud(const std::string &filename,
+                                    const std::string &normal_source,
+                                    PointXYZRGBNormalCloud &cloud);
+
 ```
 
 2. **开始标注**
