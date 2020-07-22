@@ -146,7 +146,10 @@ void RVizCloudAnnotation::LoadCloud(const std::string &filename,
  得到最终的地面标注。
 ```
 
-### 3.标注标签
+### 3.标注结果
+#### Result路径说明
+![图片](https://github.com/halostorm/PCAT/blob/master/image/s6.png)
+#### 3D框label
 ![图片](https://github.com/halostorm/PCAT/blob/master/image/s5.png)
 
 ------------------------
