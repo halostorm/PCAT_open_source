@@ -157,7 +157,9 @@ void RVizCloudAnnotation::LoadCloud(const std::string &filename,
 **IV、注意事项**
 -----------------------
     1. 标注工具使用过程中如果遇见问题，或者代码部分有疑问，编辑需要，联系 @杜文文(18355180339 / 1455112695@qq.com)
-    2. 视频教程:https://v.youku.com/
+    2. 视频教程:
+       A`https://v.youku.com/v_show/id_XNDYxNjY4MDExMg==.html?spm=a2h0k.11417342.soresults.dtitle`
+       B`https://v.youku.com/v_show/id_XNDYxNjY4MDI5Mg==.html?spm=a2hzp.8244740.0.0`
 
 -----------------------
 
