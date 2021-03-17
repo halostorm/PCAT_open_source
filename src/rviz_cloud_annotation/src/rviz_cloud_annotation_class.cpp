@@ -650,10 +650,10 @@ void RVizCloudAnnotation::LoadCloud(const std::string &filename,
 //对点云进行 强度 --> RGB转换
 void RVizCloudAnnotation::colorize_point_cloud(double intensity,
                                                PointXYZRGB *sample) {
-  if (intensity > 1) {
-    intensity = intensity / 100;
-  }
-  intensity = intensity * 255;
+  // if (intensity > 1) {
+  //   intensity = intensity / 255;
+  // }
+  // intensity = intensity * 255;
   int r, g, b;
   double intensity_range = 255;
   double wavelength;
@@ -896,6 +896,8 @@ void RVizCloudAnnotation::Save(const bool is_autosave) {
     ROS_INFO("rviz_cloud_annotation: done.");
 
     FinalLabel(*m_cloud);
+
+    ExportLane(*m_cloud);
 
     PointXYZRGBLCloud cloud_out1;
     pcl::copyPointCloud(*m_cloud, cloud_out1);
@@ -2598,6 +2600,25 @@ void RVizCloudAnnotation::AddBbox(float A, float B, float B1, float B2,
            BBOX_SET[BBOX_ID][9]);
 }
 
+// 导出车道线信息
+void RVizCloudAnnotation::ExportLane(PointXYZRGBNormalCloud &cloud) {
+  std::ofstream ofile;
+  std::string save_label_name = m_label_files[FILE_ID];
+  std::string line_path = save_label_name + ".csv";
+  ofile.open(line_path.c_str(), std::ios::trunc);
+
+  ROS_INFO("rviz_cloud_annotation: lane name: %s", line_path.c_str());
+
+  for (int k = 0; k < LINENUMBER; k++) {
+    for (int i = 0; i < ids_in_lane[k].size(); i++) {
+      int index = ids_in_lane[k][i];
+      ofile << index << "\t" << cloud[index].x << "\t" << cloud[index].y << "\t"
+            << cloud[index].z << "\n";
+    }
+  }
+  ofile.close();
+}
+
 //保存时最后生成每个点的Label信息
 void RVizCloudAnnotation::FinalLabel(PointXYZRGBNormalCloud &cloud) {
   const uint64 cloud_size = cloud.size();
@@ -2685,6 +2706,7 @@ bool RVizCloudAnnotation::InBbox(float x, float y, float z, int i) {
 //点是否在路沿上
 bool RVizCloudAnnotation::InKerb(float x, float y, float z, uint64 id,
                                  int kerb_id) {
+  return false;
   for (int i = 0; i < KERB_SIZE[kerb_id]; i++) {
     if (ids_in_kerb[kerb_id][i] == id) {
       return true;
@@ -2726,6 +2748,7 @@ bool RVizCloudAnnotation::InKerb(float x, float y, float z, uint64 id,
 //点是否在 车道线上
 bool RVizCloudAnnotation::InLane(float x, float y, float z, uint64 id,
                                  int lane_id) {
+  return false;
   for (int i = 0; i < LANE_SIZE[lane_id]; i++) {
     if (ids_in_lane[lane_id][i] == id) {
       return true;
