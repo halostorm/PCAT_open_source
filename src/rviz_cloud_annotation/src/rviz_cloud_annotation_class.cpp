@@ -572,7 +572,7 @@ void RVizCloudAnnotation::InitNewCloud(ros::NodeHandle &nh) {
   m_edit_mode = EDIT_MODE_NONE;
   m_prev_edit_mode = EDIT_MODE_NONE;
 
-  m_point_size_multiplier = 1.0;
+  m_point_size_multiplier = 3.0;
 
   m_control_point_weight_step = m_control_point_max_weight;
 
