@@ -4,3 +4,6 @@
 .idea/
 devel/
 build/
+**/cmake-build-debug
+cmake-build-debug
+

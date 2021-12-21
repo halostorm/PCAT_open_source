@@ -96,6 +96,10 @@
 #define PARAM_NAME_POINT_COUNT_UPDATE_TOPIC "rviz_cloud_annotation/point_count_update"
 #define PARAM_DEFAULT_POINT_COUNT_UPDATE_TOPIC "/rviz_cloud_annotation/point_count_update"
 
+#define PARAM_NAME_VIEW_GROUND_TOPIC "rviz_cloud_annotation/view_ground_topic"
+#define PARAM_DEFAULT_VIEW_GROUND_TOPIC "/rviz_cloud_annotation/view_ground"
+
+
 #define PARAM_NAME_VIEW_LABEL_TOPIC "rviz_cloud_annotation/view_labels_topic"
 #define PARAM_DEFAULT_VIEW_LABEL_TOPIC "/rviz_cloud_annotation/view_labels"
 
@@ -179,6 +183,10 @@
 
 #define PARAM_AUTO_PLANE_TOPIC "rviz_cloud_annotation/auto_plane_topic"
 #define PARAM_DEFAULT_AUTO_PLANE_TOPIC "/rviz_cloud_annotation/auto_plane"
+
+#define PARAM_GROUND_TOPIC "rviz_cloud_annotation/ground_topic"
+#define PARAM_DEFAULT_GROUND_TOPIC "/rviz_cloud_annotation/ground"
+
 
 // parameters for smart labeling
 // neighborhood graph distance
