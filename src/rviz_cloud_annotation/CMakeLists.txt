@@ -17,7 +17,8 @@ find_package(catkin REQUIRED COMPONENTS
 find_package(OpenCV)
 find_package(Eigen3 REQUIRED)
 find_package(Boost REQUIRED)
-find_package(PCL 1.8)
+find_package(PCL )
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/pc_utils)
 message(WARNING "PCL 1.8 found")
 
 set(MAYBE_PCL_COMMON_COLORS "")
@@ -29,7 +30,7 @@ if (NOT ${PCL_FOUND})
 endif()
 
 find_package(Qt5Widgets REQUIRED)
-set(CMAKE_CXX_STANDARD 11) # C++11...
+set(CMAKE_CXX_STANDARD 17) # C++11...
 set(CMAKE_AUTOMOC ON)
 add_definitions(-DQT_NO_KEYWORDS)
 
@@ -62,8 +63,9 @@ include_directories(
   ${Boost_INCLUDE_DIRS}
   ${Eigen3_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
+  ${PC_UTILS_INCLUDE_DIRS}
 )
-
+message(WARNING "  ${PC_UTILS_INCLUDE_DIRS}")
 add_executable(rviz_cloud_annotation_node
   src/rviz_cloud_annotation.cpp
   ${MAYBE_PCL_COMMON_COLORS}
@@ -78,6 +80,7 @@ target_link_libraries(
   ${Boost_LIBRARIES}
   ${Eigen3_LIBRARIES}
   ${catkin_LIBRARIES}
+  ${PC_UTILS_LIBRARIES}
   )
 
 
